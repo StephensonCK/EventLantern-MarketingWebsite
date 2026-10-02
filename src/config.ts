@@ -1,6 +1,6 @@
 // Single source of truth for URLs. Change these in one place.
 
-export const SITE_URL = 'https://eventlantern.com'; // TODO: confirm the production domain
+export const SITE_URL = 'https://eventlantern.com';
 
 // The product app still lives on the EventBound domain until it is migrated.
 export const APP_URL = 'https://app.eventbound.tech';
@@ -12,3 +12,7 @@ export const PRIVACY_URL = `${APP_URL}/privacy`;
 export const SOCIAL = {
   linkedin: '',
 };
+
+// Contact form posts to Formspree. Paste the form ID from your Formspree dashboard
+// (the part after /f/ in https://formspree.io/f/xxxxxxxx).
+export const FORMSPREE_ID = 'xkjgalkp';

@@ -1,7 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
+import { FORMSPREE_ID } from '../config';
 
+const endpoint = FORMSPREE_ID ? `https://formspree.io/f/${FORMSPREE_ID}` : '';
 const field =
   'w-full rounded-[10px] border border-ink/30 bg-paper px-4 py-3 text-base text-ink placeholder:text-ink/40 transition-colors duration-200 focus:border-ink focus:outline-none focus:ring-2 focus:ring-brass/50';
 ---
@@ -30,22 +32,16 @@ const field =
       </div>
 
       <div class="lg:col-span-6 lg:col-start-7" data-reveal>
-        <!-- Netlify Forms: detected at deploy time via data-netlify. Submissions appear
-             in the Netlify dashboard (set up email notifications there). -->
+        <!-- Submissions go to Formspree (set FORMSPREE_ID in src/config.ts). `_gotcha` is its honeypot. -->
         <form
           id="contact-form"
-          name="contact"
           method="POST"
-          action="/contact?success=true"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
+          action={endpoint}
+          data-endpoint={endpoint}
           class="space-y-6"
           novalidate
         >
-          <input type="hidden" name="form-name" value="contact" />
-          <p class="hidden">
-            <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-          </p>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
 
           <div class="flex flex-col gap-2">
             <label for="name" class="text-sm font-semibold">Name</label>
@@ -76,6 +72,13 @@ const field =
         >
           Thanks for reaching out. We'll get back to you as soon as we can.
         </p>
+        <p
+          id="form-failure"
+          role="alert"
+          class="mt-6 hidden rounded-[10px] border border-[#9b2c1f] bg-paper px-4 py-3 text-sm font-semibold text-[#9b2c1f]"
+        >
+          Something went wrong sending your message. Please try again in a moment.
+        </p>
       </div>
     </div>
   </section>
@@ -84,13 +87,8 @@ const field =
 <script>
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
   const submit = document.getElementById('submit-btn') as HTMLButtonElement | null;
-
-  // Show the success note when Netlify redirects back with ?success=true
-  if (new URLSearchParams(window.location.search).get('success') === 'true') {
-    const note = document.getElementById('form-success');
-    note?.classList.remove('hidden');
-    note?.scrollIntoView({ block: 'center' });
-  }
+  const success = document.getElementById('form-success');
+  const failure = document.getElementById('form-failure');
 
   if (form && submit) {
     const fields = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('#name, #email, #message'));
@@ -107,16 +105,41 @@ const field =
       });
     });
 
-    form.addEventListener('submit', (event) => {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      success?.classList.add('hidden');
+      failure?.classList.add('hidden');
+
       fields.forEach(check);
       const firstBad = fields.find((el) => el.getAttribute('aria-invalid') === 'true');
       if (firstBad) {
-        event.preventDefault();
         firstBad.focus();
         return;
       }
+
       submit.disabled = true;
       submit.textContent = 'Sending…';
+
+      try {
+        const endpoint = form.dataset.endpoint;
+        if (!endpoint) throw new Error('Contact form endpoint is not configured (FORMSPREE_ID)');
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (!response.ok) throw new Error(`Form service responded ${response.status}`);
+        form.reset();
+        fields.forEach((el) => el.removeAttribute('aria-invalid'));
+        success?.classList.remove('hidden');
+        success?.scrollIntoView({ block: 'center' });
+      } catch (error) {
+        console.error(error);
+        failure?.classList.remove('hidden');
+      } finally {
+        submit.disabled = false;
+        submit.textContent = 'Send message';
+      }
     });
   }
 </script>
