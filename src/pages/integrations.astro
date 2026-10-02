@@ -1,0 +1,293 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import CtaBand from '../components/CtaBand.astro';
+import BrandLogo from '../components/BrandLogo.astro';
+
+const categories = [
+  {
+    id: 'video-conferencing',
+    label: 'Video and conferencing',
+    title: 'Go virtual without the headaches.',
+    integrations: [
+      {
+        name: 'Zoom',
+        logo: 'zoom',
+        plan: 'Every plan',
+        description:
+          'Automatically generate Zoom links for every session, push your registration list so attendees join seamlessly, and pull post-event attendance reports, with no manual setup.',
+        note: 'Applies to virtual and hybrid events. Each feature is off by default; enable what you need.',
+        featuresLabel: 'Available features',
+        features: [
+          { title: 'Auto-create meetings', description: 'Generate a Zoom meeting link when a virtual or hybrid event or session is created.' },
+          { title: 'Embed join button', description: "Show a 'Join via Zoom' button on public event pages for virtual and hybrid events." },
+          { title: 'Sync attendee list', description: 'Push registered attendees as Zoom meeting registrants automatically.' },
+          { title: 'Pull attendance data', description: 'After a meeting ends, pull participant data back for reporting and analytics.' },
+        ],
+      },
+      {
+        name: 'Microsoft Teams',
+        logo: 'teams',
+        plan: 'Every plan',
+        description:
+          'Automatically generate Teams meeting links for every virtual or hybrid session, embed join buttons on event pages, sync your registration list, and pull attendance data back for reporting.',
+        note: 'Applies to virtual and hybrid events. Each feature is off by default; enable what you need.',
+        featuresLabel: 'Available features',
+        features: [
+          { title: 'Auto-create meetings', description: 'Generate a Teams meeting link when a virtual or hybrid event or session is created.' },
+          { title: 'Embed join button', description: "Show a 'Join via Teams' button on public event pages for virtual and hybrid events." },
+          { title: 'Sync attendee list', description: 'Push registered attendees as Teams meeting participants automatically.' },
+          { title: 'Pull attendance data', description: 'After a meeting ends, pull participant data back for reporting and analytics.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'crm-sales',
+    label: 'CRM and sales',
+    title: 'Turn every event into pipeline.',
+    integrations: [
+      {
+        name: 'HubSpot',
+        logo: 'hubspot',
+        plan: 'Professional',
+        description:
+          'Sync attendees as contacts, log confirmation emails to timelines, attribute registrations through Marketing Events, and enrich your attendee list with live CRM data, all without leaving EventLantern.',
+        featuresLabel: 'Available features',
+        features: [
+          { title: 'Email logging', description: 'Log outgoing emails (registrations, invitations, portal links) to HubSpot contact timelines.' },
+          { title: 'Contact sync', description: 'Create or update HubSpot contacts when attendees register, and bulk sync existing attendees.' },
+          { title: 'Marketing Events', description: 'Create events in HubSpot through the Marketing Events API and associate attendees for attribution reporting.' },
+          { title: 'Two-way contact sync', description: 'Pull HubSpot contact properties (company, lifecycle stage) back into EventLantern for richer attendee profiles.' },
+          { title: 'Survey response sync', description: 'Push post-event survey feedback to HubSpot contact timelines as Notes.' },
+        ],
+      },
+      {
+        name: 'Salesforce',
+        logo: 'salesforce',
+        plan: 'Professional',
+        description:
+          'Push attendees into Salesforce as Contacts or Leads, create a Campaign per event with full member tracking, pull enriched CRM data into your attendee view, and log every registration and check-in as Activities on contact records.',
+        featuresLabel: 'Available features',
+        features: [
+          { title: 'Contact and Lead sync', description: 'Push registered attendees to Salesforce as Contacts or Leads automatically.' },
+          { title: 'Campaign sync', description: 'Create a Salesforce Campaign per event and add attendees as Campaign Members.' },
+          { title: 'CRM data enrichment', description: 'Pull Salesforce contact data (Account, Title, Stage) into attendee profiles.' },
+          { title: 'Activity logging', description: 'Log event registration and check-in as Activities on Contact records.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'communication',
+    label: 'Communication',
+    title: 'Keep your team and attendees in the loop.',
+    integrations: [
+      {
+        name: 'Slack',
+        logo: 'slack',
+        plan: 'Professional',
+        description:
+          'Get a Slack notification the moment someone registers, walks through the door, or submits feedback, so your whole crew can act on it in real time.',
+        featuresLabel: 'Notifications',
+        features: [
+          { title: 'Registration notifications', description: 'Post a message when someone registers for your event.' },
+          { title: 'Check-in notifications', description: 'Post a message when an attendee checks in.' },
+          { title: 'Survey notifications', description: 'Post a message when a survey response is submitted.' },
+        ],
+      },
+      {
+        name: 'Twilio SMS',
+        logo: 'twilio',
+        plan: 'Professional',
+        description:
+          'Send SMS confirmations with portal links the moment someone registers. Powered by your own Twilio account, so you keep control of deliverability.',
+        featuresLabel: 'SMS features',
+        features: [
+          { title: 'Registration confirmation SMS', description: 'Send an SMS when someone registers, with a link to their attendee portal.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'email-marketing',
+    label: 'Email marketing',
+    title: 'Grow your audience on autopilot.',
+    integrations: [
+      {
+        name: 'Mailchimp',
+        logo: 'mailchimp',
+        plan: 'Professional',
+        description:
+          'Every new registrant flows into your Mailchimp list, segmented and ready for drip campaigns, post-event follow-ups, and nurture sequences between events.',
+        featuresLabel: 'Features',
+        features: [
+          { title: 'Contact sync', description: 'Automatically add registered attendees to your Mailchimp audience.' },
+          { title: 'Campaign triggers', description: 'Trigger automations when attendees register or check in.' },
+        ],
+      },
+      {
+        name: 'SendGrid',
+        logo: 'sendgrid',
+        plan: 'Professional',
+        description:
+          'Sync every registrant into SendGrid contact lists and trigger campaigns, from save-the-dates to post-event recaps, backed by your own sending infrastructure.',
+        featuresLabel: 'Features',
+        features: [
+          { title: 'Contact sync', description: 'Automatically add registered attendees to your SendGrid contacts.' },
+          { title: 'Campaign triggers', description: 'Trigger automations when attendees register or check in.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'automation',
+    label: 'Automation',
+    title: 'One webhook, endless possibilities.',
+    integrations: [
+      {
+        name: 'Zapier',
+        logo: 'zapier',
+        plan: 'Professional',
+        description:
+          'Fire real-time events to Zapier on every registration, check-in, and survey response, then route data to Sheets, Airtable, Notion, your CRM, or any of 7,000+ apps without writing code.',
+        featuresLabel: 'Webhook triggers',
+        features: [
+          { title: 'Registration webhook', description: 'Fire a webhook when someone registers for an event.' },
+          { title: 'Check-in webhook', description: 'Fire a webhook when an attendee checks in.' },
+          { title: 'Survey response webhook', description: 'Fire a webhook when a survey response is submitted.' },
+        ],
+      },
+    ],
+  },
+];
+
+const faqs = [
+  {
+    question: 'Which plans include integrations?',
+    answer:
+      'Zoom and Microsoft Teams integrations are available on every plan, including Free. All other integrations, including HubSpot, Salesforce, Twilio SMS, Slack, Mailchimp, SendGrid, and Zapier, are available on the Professional plan.',
+  },
+  {
+    question: 'How does the HubSpot integration work?',
+    answer:
+      'EventLantern connects to HubSpot through five modules: Email Logging, Contact Sync, Marketing Events, Two-Way Contact Sync, and Survey Response Sync. Data flows are automated once connected.',
+  },
+  {
+    question: 'How does the Salesforce integration work?',
+    answer:
+      'EventLantern syncs attendees as Contacts or Leads, creates a Campaign per event, enriches attendee profiles with CRM data, and logs registration and check-in activity to contact records.',
+  },
+  {
+    question: 'Can I go virtual with Zoom?',
+    answer:
+      'Yes. The Zoom integration auto-creates meeting links, embeds join buttons on event pages, syncs your registration list, and pulls attendance data back for reporting.',
+  },
+  {
+    question: 'Can I send SMS to attendees?',
+    answer:
+      'Yes. With the Twilio SMS integration on the Professional plan, you can send registration confirmations to attendees by text message.',
+  },
+  {
+    question: 'Does EventLantern work with Zapier?',
+    answer:
+      'Yes. Zapier webhooks fire on registration, check-in, and survey responses, so you can route data to 7,000+ apps like Sheets, Airtable, and Notion.',
+  },
+  {
+    question: 'Will you add more integrations?',
+    answer:
+      'We are continuing to expand the list. If you have a specific request, contact us and we will take it into account.',
+  },
+];
+---
+
+<BaseLayout
+  title="Integrations | EventLantern"
+  description="Connect EventLantern with Zoom, Microsoft Teams, HubSpot, Salesforce, Slack, Twilio, Mailchimp, SendGrid, and Zapier."
+>
+  <PageHero
+    eyebrow="Integrations"
+    title="Connect your event stack."
+    lede="Integrations that keep your tools in sync, so event data lands where your team already works."
+  >
+    {
+      categories.map((category) => (
+        <a
+          href={`#${category.id}`}
+          class="rounded-full border border-ivory/40 px-4 py-1.5 text-sm font-semibold text-ivory transition-colors hover:bg-ivory hover:text-ink"
+        >
+          {category.label}
+        </a>
+      ))
+    }
+  </PageHero>
+
+  {
+    categories.map((category, ci) => (
+      <section
+        id={category.id}
+        class:list={['scroll-mt-16 border-b border-rule py-20 sm:py-24', ci % 2 === 1 && 'bg-paper']}
+      >
+        <div class="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-12">
+          <div class="lg:col-span-4" data-reveal>
+            <div class="lg:sticky lg:top-28">
+              <p class="eyebrow">{category.label}</p>
+              <h2 class="mt-3 text-2xl font-semibold sm:text-3xl">{category.title}</h2>
+            </div>
+          </div>
+
+          <div class="space-y-14 lg:col-span-8">
+            {category.integrations.map((integration) => (
+              <article data-reveal>
+                <div class="flex items-center gap-4">
+                  <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-[14px] border border-rule bg-white p-3">
+                    <BrandLogo name={integration.logo} class="h-full w-full" />
+                  </span>
+                  <div>
+                    <h3 class="text-2xl font-semibold leading-tight">{integration.name}</h3>
+                    <span class="font-mono text-xs text-brass-text">{integration.plan}</span>
+                  </div>
+                </div>
+                <p class="mt-3 max-w-2xl leading-7 text-ink-soft">{integration.description}</p>
+                {'note' in integration && integration.note && (
+                  <p class="mt-3 font-mono text-xs text-ink-soft">{integration.note}</p>
+                )}
+                <p class="mt-6 font-mono text-xs text-brass-text">{integration.featuresLabel}</p>
+                <ul class="rule-list mt-2 border-y border-rule">
+                  {integration.features.map((feature) => (
+                    <li class="grid gap-1 py-3.5 sm:grid-cols-5 sm:gap-6">
+                      <h4 class="text-sm font-semibold sm:col-span-2">{feature.title}</h4>
+                      <p class="text-sm leading-6 text-ink-soft sm:col-span-3">{feature.description}</p>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <p class="border-b border-rule bg-paper px-5 py-6 text-center text-xs leading-5 text-ink-soft sm:px-8">
+    Product names and logos are trademarks of their respective owners. Their use here shows compatibility and does not imply endorsement.
+  </p>
+
+  <section class="py-24 sm:py-28">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <SectionHeader
+        eyebrow="FAQ"
+        title="Integration questions"
+        subtitle="Common questions about connecting EventLantern to your tools."
+      />
+      <FaqAccordion items={faqs} />
+    </div>
+  </section>
+
+  <CtaBand
+    title="Ready to connect your tools?"
+    subtitle="Zoom and Microsoft Teams are on every plan, including Free. All other integrations are on the Professional plan."
+  />
+</BaseLayout>

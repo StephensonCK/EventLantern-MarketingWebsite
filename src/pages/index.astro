@@ -1,0 +1,452 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Flame from '../components/Flame.astro';
+import BrandLogo from '../components/BrandLogo.astro';
+import Embers from '../components/Embers.astro';
+import Words from '../components/Words.astro';
+import type { LogoName } from '../lib/logos';
+import { SIGNUP_URL } from '../config';
+
+const pillars = [
+  {
+    title: 'One connected operation',
+    body: 'Registration, sessions, speakers, attendees, sponsors, exhibitors, communications, and reporting share one event context.',
+  },
+  {
+    title: 'Enterprise capability, without the maze',
+    body: 'Run complex events without weeks of implementation or a cluttered interface.',
+  },
+  {
+    title: 'Pricing that respects the work',
+    body: 'Start free, move up when your event requires it, and never pay an EventLantern markup on ticket processing.',
+  },
+  {
+    title: 'Ready when you are',
+    body: 'Create an event in minutes. No mandatory sales call or onboarding cycle.',
+  },
+];
+
+const featureGroups = [
+  {
+    category: 'Core event tools',
+    blurb: 'The daily work of running an event.',
+    features: [
+      { title: 'Event management', description: 'Create and manage conferences, workshops, and meetups with ease.' },
+      { title: 'Session scheduling', description: 'Multi-track agenda builder with rooms and time slots.' },
+      { title: 'Speaker management', description: 'Speaker profiles with bios, photos, and social links.' },
+      { title: 'Registration and ticketing', description: 'Custom forms, paid and free tickets, promo codes, and Stripe.' },
+      { title: 'Attendee management', description: 'View, filter, and export attendees with payment tracking.' },
+      { title: 'Check-in', description: 'QR code check-in with a dedicated portal.' },
+    ],
+  },
+  {
+    category: 'Sponsors, exhibitors and teams',
+    blurb: 'Everyone with a stake in the room.',
+    features: [
+      { title: 'Sponsor management', description: 'CRM pipeline with tiers, deliverables, and a sponsor portal.' },
+      { title: 'Sponsor ROI', description: 'Impression metrics, lead attribution, and ROI dashboards.' },
+      { title: 'Exhibitor management', description: 'Booth staff management with a tier system and exhibitor portal.' },
+      { title: 'Lead capture', description: 'Exhibitors scan and capture attendee leads, with exportable reports.' },
+      { title: 'Team collaboration', description: 'Team management with roles and invitations.' },
+    ],
+  },
+  {
+    category: 'Attendee experience',
+    blurb: 'What people feel in the room, and what you learn from it.',
+    features: [
+      { title: 'Attendee portal', description: 'Self-service portal for sessions and registration.' },
+      { title: 'Engagement scoring', description: 'Score attendance, interactions, and activity to find your most engaged participants.' },
+      { title: 'Surveys and feedback', description: 'Custom surveys linked to sessions or events.' },
+      { title: 'Badge printing', description: 'Professional badges with QR codes and your branding.' },
+      { title: 'Virtual events', description: 'Fully online events with streaming, virtual networking, and remote attendance.' },
+      { title: 'Hybrid events', description: 'Blend in-person and virtual experiences in one event.' },
+    ],
+  },
+  {
+    category: 'Your brand, your data',
+    blurb: 'Make it yours, then see how it went.',
+    features: [
+      { title: 'Event website builder', description: 'One-click public websites with customizable templates.' },
+      { title: 'Branding', description: 'Custom logo, brand colors, and font settings.' },
+      { title: 'Reports and analytics', description: 'Dashboards with registration trends and revenue tracking.' },
+      { title: 'Session trends', description: 'Session popularity, attendance patterns, and drop-off rates.' },
+      { title: 'Email campaigns', description: 'Targeted campaigns with templates, scheduling, and open-rate tracking.' },
+      { title: 'Integrations', description: 'Zoom, Microsoft Teams, HubSpot, Salesforce, Slack, Zapier, and more.' },
+    ],
+  },
+];
+
+const tools: { name: string; logo: LogoName }[] = [
+  { name: 'Zoom', logo: 'zoom' },
+  { name: 'Microsoft Teams', logo: 'teams' },
+  { name: 'HubSpot', logo: 'hubspot' },
+  { name: 'Salesforce', logo: 'salesforce' },
+  { name: 'Slack', logo: 'slack' },
+  { name: 'Twilio', logo: 'twilio' },
+  { name: 'Mailchimp', logo: 'mailchimp' },
+  { name: 'SendGrid', logo: 'sendgrid' },
+  { name: 'Zapier', logo: 'zapier' },
+];
+
+const plans = [
+  { name: 'Free', price: '$0', period: '', description: 'Get started with no credit card.', note: 'One active event, up to 50 attendees.' },
+  { name: 'Starter', price: '$49', period: '/mo', description: 'Small to mid-size events.', note: 'Three events, up to 500 attendees each.' },
+  { name: 'Professional', price: '$249', period: '/mo', description: 'Several events at scale.', note: 'Unlimited events, up to 5,000 attendees each.', featured: true },
+];
+
+type Cell = boolean | string | 'link';
+const matrix: { feature: string; cells: [Cell, Cell, Cell] }[] = [
+  { feature: 'Events', cells: ['1', '3', 'Unlimited'] },
+  { feature: 'Attendees per event', cells: ['50', '500', '5,000'] },
+  { feature: 'Session scheduling', cells: [true, true, true] },
+  { feature: 'Speaker management', cells: [true, true, true] },
+  { feature: 'QR code check-in', cells: [true, true, true] },
+  { feature: 'Badge printing', cells: [true, true, true] },
+  { feature: 'Attendee portal', cells: [true, true, true] },
+  { feature: 'Surveys and feedback', cells: [true, true, true] },
+  { feature: 'Virtual events', cells: [true, true, true] },
+  { feature: 'Hybrid events', cells: [true, true, true] },
+  { feature: 'Reports and analytics', cells: ['Basic', 'Standard', 'Advanced'] },
+  { feature: 'Engagement scoring', cells: [false, true, true] },
+  { feature: 'Session trends', cells: [false, true, true] },
+  { feature: 'Sponsor ROI', cells: [false, true, true] },
+  { feature: 'Email campaigns', cells: [false, false, true] },
+  { feature: 'Paid registration', cells: [false, true, true] },
+  { feature: 'Promo codes', cells: [false, true, true] },
+  { feature: 'Website templates', cells: ['Meetup only', 'All', 'All'] },
+  { feature: 'Stripe Connect', cells: [false, true, true] },
+  { feature: 'Custom branding', cells: [true, true, true] },
+  { feature: 'Team collaboration', cells: [true, true, true] },
+  { feature: 'Sponsor management', cells: [false, false, true] },
+  { feature: 'Exhibitor management', cells: [false, false, true] },
+  { feature: 'Lead capture', cells: [false, false, true] },
+  { feature: 'Zoom integration', cells: ['link', 'link', 'link'] },
+  { feature: 'Microsoft Teams integration', cells: ['link', 'link', 'link'] },
+  { feature: 'HubSpot integration', cells: [false, false, 'link'] },
+  { feature: 'Salesforce integration', cells: [false, false, 'link'] },
+  { feature: 'Twilio SMS integration', cells: [false, false, 'link'] },
+  { feature: 'Slack integration', cells: [false, false, 'link'] },
+  { feature: 'Mailchimp integration', cells: [false, false, 'link'] },
+  { feature: 'SendGrid integration', cells: [false, false, 'link'] },
+  { feature: 'Zapier integration', cells: [false, false, 'link'] },
+  { feature: 'Support', cells: ['Email', 'Email', 'Priority'] },
+];
+
+const faqs = [
+  {
+    question: 'What is EventLantern?',
+    answer:
+      'EventLantern is an event management platform for conferences, workshops, and meetups. It covers registration, ticketing, session scheduling, speaker management, check-in, sponsor and exhibitor portals, analytics, and more, in one connected system. It was previously called EventBound.',
+  },
+  {
+    question: 'Is EventBound the same product?',
+    answer:
+      'Yes. The name is changing; the product and its purpose are not. Existing accounts, event data, plans, and product access continue as usual. You will see the new name and identity appear across the website and product over time.',
+  },
+  {
+    question: 'Is there a free plan?',
+    answer:
+      'Yes. The Free plan lets you run one active event with up to 50 attendees, no credit card required. It includes core features like session scheduling, QR check-in, badge printing, and an attendee portal.',
+  },
+  {
+    question: 'Can I run virtual or hybrid events?',
+    answer:
+      'Yes. EventLantern supports virtual, in-person, and hybrid events on every plan, so you can reach attendees wherever they are.',
+  },
+  {
+    question: 'What integrations are available?',
+    answer:
+      'Zoom and Microsoft Teams are on every plan. The Professional plan adds HubSpot, Salesforce, Twilio SMS, Slack, Mailchimp, SendGrid, and Zapier. The Integrations page has the details.',
+  },
+  {
+    question: 'How does pricing work?',
+    answer:
+      'There are three plans: Free ($0), Starter ($49/mo for up to 3 events and 500 attendees each), and Professional ($249/mo for unlimited events and up to 5,000 attendees each). Pricing is published, with no hidden fees.',
+  },
+  {
+    question: 'Is my event data secure?',
+    answer:
+      'Security is built into the architecture: row-level data isolation, zero-trust access, encrypted portals, full audit trails, and PCI-compliant payments through Stripe. The Security page has the full overview.',
+  },
+  {
+    question: 'Are there extra fees for paid events?',
+    answer:
+      'The subscription price is all-inclusive. When you sell tickets through Stripe Connect, standard Stripe processing fees (2.9% + $0.30 per card transaction) apply. Those go directly to Stripe. EventLantern adds no markup.',
+  },
+];
+
+const appSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'EventLantern',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  description:
+    'Event management software for conferences, workshops, and meetups. Registration, ticketing, check-in, speaker management, sponsor portals, and analytics in one connected system.',
+  offers: [
+    { '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
+    { '@type': 'Offer', name: 'Starter', price: '49', priceCurrency: 'USD' },
+    { '@type': 'Offer', name: 'Professional', price: '249', priceCurrency: 'USD' },
+  ],
+};
+---
+
+<BaseLayout
+  title="EventLantern | See the whole event. Run it as one."
+  description="One clear platform for registration, programming, speakers, sponsors, attendees, check-in, and reporting. Start free, no sales call."
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(appSchema)} />
+
+  <!-- Hero -->
+  <section>
+    <div class="hero-stage on-dark">
+      <div class="mx-auto grid max-w-7xl items-center gap-10 px-5 pb-20 pt-14 sm:px-8 sm:pb-28 sm:pt-24 lg:min-h-[calc(100dvh-8.5rem)] lg:grid-cols-12 lg:py-16">
+        <div class="lg:col-span-8">
+          <p class="eyebrow hero-enter">For conferences, workshops and meetups</p>
+          <h1 class="display mt-5">
+            <Words text="See the whole event." /><br />
+            <span class="text-brass-glow"><Words text="Run it as one." start={4} /></span>
+          </h1>
+          <p class="lead hero-enter hero-enter-3 mt-8 max-w-xl">
+            One clear platform for registration, programming, speakers, sponsors, attendees, check-in, and reporting.
+          </p>
+          <div class="hero-enter hero-enter-3 mt-10 flex flex-wrap gap-3">
+            <a href={SIGNUP_URL} class="btn btn-primary">Start free</a>
+            <a href="#features" class="btn btn-ghost">Explore the platform</a>
+          </div>
+          <p class="hero-enter hero-enter-3 mt-5 font-mono text-sm text-ivory/65">No credit card. No sales call.</p>
+        </div>
+
+        <div class="relative hidden lg:col-span-4 lg:block" aria-hidden="true">
+          <div class="flame-glow absolute left-1/2 top-[18%] h-[30rem] w-[30rem] -translate-x-1/2 -translate-y-1/4"></div>
+          <div class="relative mx-auto w-fit">
+            <Flame class="h-[26rem] w-auto text-ivory" />
+            <Embers left="55%" top="20%" />
+          </div>
+        </div>
+      </div>
+      <div class="hero-rule" aria-hidden="true"></div>
+    </div>
+
+    <!-- Rebrand notice -->
+    <div class="border-y border-rule bg-paper">
+      <div class="mx-auto flex max-w-7xl flex-col gap-1 px-5 py-4 sm:flex-row sm:items-center sm:gap-6 sm:px-8">
+        <p class="font-mono text-sm font-medium text-brass-text">EventBound is now EventLantern.</p>
+        <p class="text-sm text-ink-soft">
+          The name changed. The product, your account, and your data did not. Same product, clearer identity.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Point of view -->
+  <section class="py-24 sm:py-32">
+    <div class="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-12">
+      <div class="lg:col-span-7" data-reveal>
+        <p class="eyebrow">Why EventLantern</p>
+        <blockquote class="h-section mt-4">
+          Enterprise event software has become harder than the events it is meant to support.
+        </blockquote>
+        <p class="lead mt-8 max-w-xl">
+          You should not need a scavenger hunt to find a routine task. Powerful software can still be clear, fast, and fairly priced.
+        </p>
+        <a href="/why" class="link mt-8 inline-block">What we do differently</a>
+      </div>
+
+      <ul class="rule-list lg:col-span-5">
+        {
+          pillars.map((pillar, i) => (
+            <li class="py-6 first:pt-0" data-reveal style={`--i:${i}`}>
+              <h3 class="text-xl font-semibold">{pillar.title}</h3>
+              <p class="mt-2 leading-7 text-ink-soft">{pillar.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="scroll-mt-16 border-t border-rule bg-paper py-24 sm:py-32">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <SectionHeader
+        eyebrow="Features"
+        title="Everything connected. Nothing buried."
+        subtitle="Every part of the event lives in one place, so you can see how it fits together."
+      />
+
+      <div class="mt-16 space-y-20">
+        {
+          featureGroups.map((group, gi) => (
+            <div class="grid gap-8 lg:grid-cols-12">
+              <div class="lg:col-span-4" data-reveal>
+                <div class="lg:sticky lg:top-28">
+                  <h3 class="text-2xl font-semibold">{group.category}</h3>
+                  <p class="mt-2 text-ink-soft">{group.blurb}</p>
+                </div>
+              </div>
+              <ul class="rule-list border-y border-rule lg:col-span-8">
+                {group.features.map((feature, fi) => (
+                  <li class="grid gap-1 py-5 sm:grid-cols-5 sm:gap-6" data-reveal style={`--i:${fi}`}>
+                    <h4 class="font-semibold sm:col-span-2">{feature.title}</h4>
+                    <p class="leading-7 text-ink-soft sm:col-span-3">{feature.description}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Integrations (after dark) -->
+  <section class="on-dark relative overflow-hidden bg-ink py-24 text-ivory sm:py-32">
+    <div class="flame-glow pointer-events-none absolute -left-40 -top-40 h-[40rem] w-[40rem] opacity-50" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-7xl px-5 sm:px-8">
+      <div class="max-w-3xl" data-reveal>
+        <p class="eyebrow">Integrations</p>
+        <h2 class="h-section mt-3">Works with the tools you already run.</h2>
+        <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ivory/75">
+          Sync with video, CRM, messaging, email, and automation tools, so event data flows to where your team already works.
+        </p>
+      </div>
+      <a href="/integrations" class="btn btn-ghost mt-10">See every integration</a>
+    </div>
+
+    <!-- Kinetic marquee: second run is decorative, so it is hidden from assistive tech. -->
+    <div class="marquee relative mt-16 border-y border-ivory/10 py-8" data-reveal>
+      <div class="marquee-track">
+        {
+          [0, 1].map((run) => (
+            <ul class="flex shrink-0 items-center gap-14 pr-14" aria-hidden={run === 1 ? 'true' : undefined}>
+              {tools.map((tool) => (
+                <li class="flex items-center gap-4 whitespace-nowrap">
+                  <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-[14px] bg-ivory p-3 sm:h-16 sm:w-16">
+                    <BrandLogo name={tool.logo} class="h-full w-full" />
+                  </span>
+                  <span class="text-2xl font-semibold tracking-tight text-ivory/90 sm:text-4xl">{tool.name}</span>
+                </li>
+              ))}
+              <li class="whitespace-nowrap text-2xl font-semibold tracking-tight text-brass-glow sm:text-4xl">and more</li>
+            </ul>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="scroll-mt-16 py-24 sm:py-32">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <SectionHeader
+        eyebrow="Pricing"
+        title="Full capability. Fair terms."
+        subtitle="Start free. Move up when your event needs it. Published prices, month to month."
+      />
+
+      <div class="mt-14 grid border-y border-rule md:grid-cols-[1fr_1fr_1.35fr] md:divide-x md:divide-rule">
+        {
+          plans.map((plan, i) => (
+            <div
+              class:list={['relative flex flex-col p-8 sm:p-10', i > 0 && 'border-t border-rule md:border-t-0', plan.featured && 'bg-paper']}
+              data-reveal
+              style={`--i:${i}`}
+            >
+              {plan.featured && (
+                <span class="absolute inset-x-0 top-0 h-1 bg-brass" aria-hidden="true" />
+              )}
+              <h3 class="text-xl font-semibold">{plan.name}</h3>
+              <p class="mt-5 font-mono text-5xl font-medium tracking-tight">
+                {plan.price}<span class="text-lg text-ink-soft">{plan.period}</span>
+              </p>
+              <p class="mt-4 font-semibold">{plan.description}</p>
+              <p class="mt-1 text-ink-soft">{plan.note}</p>
+              <a href={SIGNUP_URL} class:list={['btn mt-8 self-start', plan.featured ? 'btn-primary' : 'btn-ghost']}>
+                {plan.price === '$0' ? 'Start free' : `Choose ${plan.name}`}
+              </a>
+            </div>
+          ))
+        }
+      </div>
+
+      <details class="group mt-14 border-b border-rule pb-4" data-reveal>
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-2 text-lg font-semibold [&::-webkit-details-marker]:hidden">
+          Compare every feature, plan by plan
+          <span class="font-mono text-sm text-brass-text group-open:hidden">Show</span>
+          <span class="hidden font-mono text-sm text-brass-text group-open:inline">Hide</span>
+        </summary>
+        <div class="mt-6 overflow-x-auto">
+          <table class="w-full min-w-[560px] text-left text-sm">
+            <thead>
+              <tr class="border-b-2 border-ink">
+                <th scope="col" class="py-3 pr-4 font-semibold">Feature</th>
+                <th scope="col" class="px-4 py-3 text-center font-semibold">Free</th>
+                <th scope="col" class="px-4 py-3 text-center font-semibold">Starter</th>
+                <th scope="col" class="px-4 py-3 text-center font-semibold">Professional</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-rule">
+              {
+                matrix.map((row) => (
+                  <tr>
+                    <th scope="row" class="py-3 pr-4 font-medium text-ink-soft">{row.feature}</th>
+                    {row.cells.map((cell) => (
+                      <td class="px-4 py-3 text-center font-mono text-[0.8rem]">
+                        {cell === true ? (
+                          <svg class="mx-auto h-4 w-4 text-brass-text" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Included">
+                            <path d="M3 8.5l3.2 3L13 4.5" />
+                          </svg>
+                        ) : cell === false ? (
+                          <span class="inline-block h-px w-3 bg-ink/30 align-middle" role="img" aria-label="Not included" />
+                        ) : cell === 'link' ? (
+                          <a href="/integrations" class="link !font-sans text-xs">Details</a>
+                        ) : (
+                          cell
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <p class="mt-8 max-w-3xl text-sm leading-6 text-ink-soft">
+        Paid registrations are processed through Stripe Connect. Standard Stripe fees of 2.9% + $0.30 per card transaction apply. EventLantern adds no markup on top.
+      </p>
+    </div>
+  </section>
+
+  <!-- Security -->
+  <section class="border-y border-rule bg-paper-deep py-24 sm:py-28">
+    <div class="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-12">
+      <div class="lg:col-span-7" data-reveal>
+        <p class="eyebrow">Security</p>
+        <h2 class="h-section mt-3">Built secure, not bolted on.</h2>
+        <p class="lead mt-5 max-w-xl">
+          Row-level data isolation, zero-trust architecture, encrypted portals, full audit trails, and PCI-compliant payments.
+        </p>
+        <a href="/security" class="link mt-8 inline-block">Read the security overview</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-24 sm:py-32">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <SectionHeader eyebrow="FAQ" title="Questions, answered." />
+      <FaqAccordion items={faqs} />
+    </div>
+  </section>
+
+  <CtaBand
+    title="Your whole event is ready to come into view."
+    subtitle="Create your first event without a sales call or a credit card."
+  />
+</BaseLayout>

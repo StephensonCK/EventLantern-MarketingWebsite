@@ -1,0 +1,32 @@
+---
+// The Wick mark: the "t" with its brass flame, redrawn from Brand/03_Icon_Variations.
+// `t` color follows currentColor; the flame stays brass.
+// Inside a `.hero-stage` the flame ignites and flickers (see global.css); elsewhere it is static.
+interface Props {
+  class?: string;
+  flameOnly?: boolean;
+}
+const { class: className = '', flameOnly = false } = Astro.props;
+const FLAME = 'M9 75.2 C-2 51 29 47 23 24 C45 47 31 55 23.9 60.4 C20.5 65.5 13 68 9 75.2 Z';
+---
+
+{
+  flameOnly ? (
+    <svg class={className} viewBox="3 20 40 60" aria-hidden="true" focusable="false">
+      <g class="flame-fire">
+        <path fill="#B98222" d={FLAME} />
+      </g>
+    </svg>
+  ) : (
+    <svg class={className} viewBox="0 0 55.2 131.3" aria-hidden="true" focusable="false">
+      <g class="flame-fire">
+        <path fill="#B98222" transform="translate(7.3 -7.4)" d={FLAME} />
+      </g>
+      <path
+        fill="currentColor"
+        transform="translate(7.3 122.6) scale(0.1 -0.1)"
+        d="M322 -7Q239 -7 188.0 13.5Q137 34 113.5 82.5Q90 131 90 214V548C130 620 205 645 239 696V208Q239 169 259.5 148.5Q280 128 318 128H399V-7ZM7 431V548H399V431Z"
+      />
+    </svg>
+  )
+}

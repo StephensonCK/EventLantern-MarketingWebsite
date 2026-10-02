@@ -1,0 +1,26 @@
+---
+import Flame from './Flame.astro';
+import { SIGNUP_URL } from '../config';
+
+interface Props {
+  title: string;
+  subtitle: string;
+  buttonLabel?: string;
+}
+const { title, subtitle, buttonLabel = 'Start free' } = Astro.props;
+---
+
+<section class="on-dark relative overflow-hidden bg-ink text-ivory">
+  <div class="flame-glow pointer-events-none absolute -right-24 top-1/2 h-[34rem] w-[34rem] -translate-y-1/2 opacity-70" aria-hidden="true"></div>
+  <Flame class="pointer-events-none absolute right-16 top-1/2 hidden h-72 w-auto -translate-y-1/2 text-ivory lg:block" aria-hidden="true" />
+  <div class="relative mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-28">
+    <div class="max-w-2xl" data-reveal>
+      <h2 class="h-section">{title}</h2>
+      <p class="mt-5 text-lg leading-relaxed text-ivory/75">{subtitle}</p>
+      <div class="mt-9 flex flex-wrap gap-3">
+        <a href={SIGNUP_URL} class="btn btn-brass">{buttonLabel}</a>
+        <a href="/contact" class="btn btn-ghost">Talk to us</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,13 @@
+---
+import { getLogo, type LogoName } from '../lib/logos';
+
+interface Props {
+  name: LogoName;
+  class?: string;
+}
+const { name, class: className = '' } = Astro.props;
+const { body, viewBox } = getLogo(name);
+---
+
+<!-- Decorative: the product name always sits next to the mark. -->
+<svg class={className} viewBox={viewBox} aria-hidden="true" focusable="false" set:html={body} />

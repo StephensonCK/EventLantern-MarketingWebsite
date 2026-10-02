@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+const values = [
+  {
+    title: 'Radical transparency',
+    description:
+      'No hidden fees, no surprise invoices, no fine print. What you see is what you pay, always. We publish our pricing because we are proud of it.',
+  },
+  {
+    title: 'Respect your budget',
+    description:
+      'Event organizers should not need enterprise contracts just to print badges or send reminders. We pack powerful features into plans that make sense.',
+  },
+  {
+    title: 'Ship what matters',
+    description:
+      'We would rather give you one tool that does everything well than ten that each cost extra. Every feature we build is included, not upsold.',
+  },
+  {
+    title: 'Built with you',
+    description:
+      'Our roadmap is shaped by the people who use the product every day. Feature requests are not filed away. They are acted on.',
+  },
+  {
+    title: 'Simplicity is a feature',
+    description:
+      'Complex does not mean powerful. We care about clean design and intuitive workflows, so you spend less time learning and more time creating.',
+  },
+  {
+    title: 'Your success, not just ours',
+    description:
+      'We measure ourselves by the events you pull off, not by how many add-ons we can sell you. When your attendees are happy, so are we.',
+  },
+];
+---
+
+<BaseLayout
+  title="About EventLantern | Our mission and values"
+  description="EventLantern exists to make event management transparent, affordable, and clear. Learn about our mission, our values, and our name."
+>
+  <PageHero
+    eyebrow="About"
+    title="Events deserve better tools."
+    lede="We built this because we believe event organizers deserve a platform that is powerful, honest, and a pleasure to use."
+  />
+
+  <section class="py-24 sm:py-28">
+    <div class="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-12">
+      <div class="lg:col-span-5" data-reveal>
+        <p class="eyebrow">Our mission</p>
+        <h2 class="h-section mt-3">Make event management transparent, effective, and fair.</h2>
+      </div>
+      <div class="space-y-6 text-lg leading-8 text-ink-soft lg:col-span-6 lg:col-start-7" data-reveal>
+        <p>
+          Event software often charges extra for basic features, locks essential tools behind enterprise tiers, and buries costs in complicated pricing. We think organizers deserve better.
+        </p>
+        <p>
+          EventLantern is the platform we wished existed: everything you need at a price that feels fair, with no surprises when the invoice arrives. We want you to feel good about the tools you use.
+        </p>
+        <p>
+          Whether you are running a 30-person workshop or a 5,000-attendee conference, you deserve software that works hard for you without working over your budget.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="on-dark relative overflow-hidden bg-ink py-24 text-ivory sm:py-28">
+    <div class="flame-glow pointer-events-none absolute -right-32 -top-32 h-[34rem] w-[34rem] opacity-50" aria-hidden="true"></div>
+    <div class="relative mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-12">
+      <div class="lg:col-span-5" data-reveal>
+        <p class="eyebrow">Our name</p>
+        <h2 class="h-section mt-3">A clear view across every part of an event.</h2>
+      </div>
+      <div class="space-y-6 text-lg leading-8 text-ivory/80 lg:col-span-6 lg:col-start-7" data-reveal>
+        <p>
+          EventBound is now EventLantern. The name is changing; the product and its purpose are not.
+        </p>
+        <p>
+          A lantern lights up what is in front of you. That is what this platform has always been built to provide: one connected system, and a clear view of the whole event for the people running it.
+        </p>
+        <p>
+          Existing accounts, event data, plans, and product access continue as usual. You will see the new name and identity appear across the website and product over time.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 sm:py-28">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <SectionHeader
+        eyebrow="Our values"
+        title="What we stand for"
+        subtitle="These are not aspirational posters on a wall. They are how we make every decision."
+      />
+      <div class="mt-14 grid gap-x-16 gap-y-12 md:grid-cols-2">
+        {
+          values.map((value, i) => (
+            <div class:list={['border-t-2 border-ink pt-6', i % 2 === 1 && 'md:mt-16']} data-reveal style={`--i:${i % 2}`}>
+              <h3 class="text-xl font-semibold">{value.title}</h3>
+              <p class="mt-3 leading-7 text-ink-soft">{value.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    title="Ready to see the difference?"
+    subtitle="Try EventLantern free. No credit card, no sales call, no strings attached."
+  />
+</BaseLayout>

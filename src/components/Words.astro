@@ -1,0 +1,19 @@
+---
+// Splits a line into words that rise in one after another. `start` continues the stagger
+// across several lines of the same headline.
+interface Props {
+  text: string;
+  start?: number;
+}
+const { text, start = 0 } = Astro.props;
+const words = text.split(' ');
+---
+
+{
+  words.map((word, i) => (
+    <>
+      <span class="word" style={`--w:${start + i}`}>{word}</span>
+      {i < words.length - 1 ? ' ' : null}
+    </>
+  ))
+}

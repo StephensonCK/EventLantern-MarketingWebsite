@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const field =
+  'w-full rounded-[10px] border border-ink/30 bg-paper px-4 py-3 text-base text-ink placeholder:text-ink/40 transition-colors duration-200 focus:border-ink focus:outline-none focus:ring-2 focus:ring-brass/50';
+---
+
+<BaseLayout
+  title="Contact | EventLantern"
+  description="Get in touch with the EventLantern team. Questions about event management, demos, or pricing, we would love to hear from you."
+>
+  <PageHero
+    eyebrow="Contact"
+    title="Say hello."
+    lede="Have a question, need a demo, or want to learn more? Write to us. We reply on business days."
+  />
+
+  <section class="py-20 sm:py-24">
+    <div class="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-12">
+      <div class="lg:col-span-5" data-reveal>
+        <h2 class="text-2xl font-semibold">Send us a message</h2>
+        <p class="mt-3 max-w-sm leading-7 text-ink-soft">
+          Tell us a little about your event and what you are trying to do.
+        </p>
+        <p class="mt-8 font-mono text-sm text-brass-text">Looking for EventBound?</p>
+        <p class="mt-1 max-w-sm text-sm leading-6 text-ink-soft">
+          You are in the right place. EventBound is now EventLantern. Same product, clearer identity.
+        </p>
+      </div>
+
+      <div class="lg:col-span-6 lg:col-start-7" data-reveal>
+        <!-- Netlify Forms: detected at deploy time via data-netlify. Submissions appear
+             in the Netlify dashboard (set up email notifications there). -->
+        <form
+          id="contact-form"
+          name="contact"
+          method="POST"
+          action="/contact?success=true"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          class="space-y-6"
+          novalidate
+        >
+          <input type="hidden" name="form-name" value="contact" />
+          <p class="hidden">
+            <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+          </p>
+
+          <div class="flex flex-col gap-2">
+            <label for="name" class="text-sm font-semibold">Name</label>
+            <input type="text" id="name" name="name" required autocomplete="name" aria-describedby="name-error" class={field} />
+            <p id="name-error" class="field-error" role="alert">Please tell us your name.</p>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="email" class="text-sm font-semibold">Email</label>
+            <input type="email" id="email" name="email" required autocomplete="email" aria-describedby="email-help email-error" class={field} />
+            <p id="email-help" class="text-sm text-ink-soft">We only use this to reply to you.</p>
+            <p id="email-error" class="field-error" role="alert">Please enter a valid email address.</p>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="message" class="text-sm font-semibold">Message</label>
+            <textarea id="message" name="message" rows="6" required aria-describedby="message-error" class={field}></textarea>
+            <p id="message-error" class="field-error" role="alert">Please write a short message.</p>
+          </div>
+
+          <button type="submit" id="submit-btn" class="btn btn-primary w-full sm:w-auto">Send message</button>
+        </form>
+
+        <p
+          id="form-success"
+          role="status"
+          class="mt-6 hidden rounded-[10px] border border-brass bg-paper px-4 py-3 text-sm font-semibold"
+        >
+          Thanks for reaching out. We'll get back to you as soon as we can.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const submit = document.getElementById('submit-btn') as HTMLButtonElement | null;
+
+  // Show the success note when Netlify redirects back with ?success=true
+  if (new URLSearchParams(window.location.search).get('success') === 'true') {
+    const note = document.getElementById('form-success');
+    note?.classList.remove('hidden');
+    note?.scrollIntoView({ block: 'center' });
+  }
+
+  if (form && submit) {
+    const fields = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('#name, #email, #message'));
+
+    const check = (el: HTMLInputElement | HTMLTextAreaElement) => {
+      el.setAttribute('aria-invalid', String(!el.checkValidity() || el.value.trim() === ''));
+    };
+
+    // Validate on leaving a field, then keep the error in sync as the user fixes it.
+    fields.forEach((el) => {
+      el.addEventListener('blur', () => check(el));
+      el.addEventListener('input', () => {
+        if (el.getAttribute('aria-invalid') === 'true') check(el);
+      });
+    });
+
+    form.addEventListener('submit', (event) => {
+      fields.forEach(check);
+      const firstBad = fields.find((el) => el.getAttribute('aria-invalid') === 'true');
+      if (firstBad) {
+        event.preventDefault();
+        firstBad.focus();
+        return;
+      }
+      submit.disabled = true;
+      submit.textContent = 'Sending…';
+    });
+  }
+</script>

@@ -1,0 +1,457 @@
+@import 'tailwindcss';
+
+/* EventLantern "Wick" tokens (Brand/08_Developer/eventlantern-brand.css).
+   Derived tones (paper-deep, ink-soft, brass-text, brass-glow) exist only to keep text accessible. */
+@theme {
+  --color-ink: #111b3a;
+  --color-ink-soft: #3b4466;
+  --color-ink-deep: #0b1228;
+  --color-brass: #b98222;
+  --color-brass-text: #85580f; /* brass for text on ivory, 5.4:1 */
+  --color-brass-glow: #e0ac52; /* brass for text on ink */
+  --color-ivory: #f7f3e8;
+  --color-paper: #fbf9f2;
+  --color-paper-deep: #ece4d0;
+  --color-rule: #d9cfb6;
+
+  --font-sans: 'Sora', 'Avenir Next', 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+
+  --radius-control: 10px;
+  --radius-surface: 14px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-weight: 450;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Faint paper grain so the ivory reads as stock, not a flat fill. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.38 0 0 0 0 0.2 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  body > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-sans);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: var(--color-brass);
+    color: var(--color-ink-deep);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brass);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  /* Headline should lead, not shout: hierarchy comes from weight and the brass second line. */
+  .display {
+    font-weight: 650;
+    font-size: clamp(2.5rem, 5.4vw, 4.5rem);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+  }
+
+  .h-section {
+    font-weight: 650;
+    font-size: clamp(2rem, 4.4vw, 3.25rem);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+  }
+
+  .lead {
+    font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+    line-height: 1.6;
+    color: var(--color-ink-soft);
+  }
+
+  /* Small mono label, e.g. "01 / Features". Sentence case, not all-caps. */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--color-brass-text);
+  }
+
+  .on-dark .eyebrow {
+    color: var(--color-brass-glow);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: var(--radius-control);
+    padding: 0.9rem 1.6rem;
+    font-weight: 650;
+    font-size: 0.95rem;
+    line-height: 1.2;
+    transition:
+      transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 220ms cubic-bezier(0.16, 1, 0.3, 1),
+      color 220ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+  .btn:active {
+    transform: translateY(0) scale(0.97);
+  }
+  .btn[disabled] {
+    opacity: 0.6;
+    cursor: progress;
+    transform: none;
+  }
+  .btn-primary {
+    background: var(--color-ink);
+    color: var(--color-ivory);
+  }
+  .btn-primary:hover {
+    background: var(--color-ink-deep);
+  }
+  .btn-ghost {
+    border: 1.5px solid var(--color-ink);
+    color: var(--color-ink);
+  }
+  .btn-ghost:hover {
+    background: var(--color-ink);
+    color: var(--color-ivory);
+  }
+  .btn-brass {
+    background: var(--color-brass);
+    color: var(--color-ink-deep);
+  }
+  .btn-brass:hover {
+    background: var(--color-brass-glow);
+  }
+  .on-dark .btn-ghost {
+    border-color: rgb(247 243 232 / 0.5);
+    color: var(--color-ivory);
+  }
+  .on-dark .btn-ghost:hover {
+    background: var(--color-ivory);
+    color: var(--color-ink);
+  }
+
+  .link {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--color-brass);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+    transition: text-decoration-color 160ms ease;
+    font-weight: 600;
+  }
+  .link:hover {
+    text-decoration-color: var(--color-ink);
+  }
+  .on-dark .link {
+    color: var(--color-ivory);
+  }
+
+  .rule-list > * + * {
+    border-top: 1px solid var(--color-rule);
+  }
+  .on-dark .rule-list > * + * {
+    border-top-color: rgb(247 243 232 / 0.16);
+  }
+
+  /* A lit flame: a static glow behind the mark. No perpetual animation. */
+  .flame-glow {
+    background: radial-gradient(
+      closest-side,
+      rgb(224 172 82 / 0.5),
+      rgb(185 130 34 / 0.18) 55%,
+      transparent 100%
+    );
+  }
+}
+
+/* ---------- Hero stage: a lantern-lit backdrop that the flame, light and headline share ---------- */
+.hero-stage {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--color-ivory);
+  /* Phones hide the flame, so a corner glow stands in for it. From lg up the flame carries its
+     own glow; a second background glow would sit off-center from it and read as a double light. */
+  background:
+    radial-gradient(28rem 22rem at 85% 30%, rgb(185 130 34 / 0.26), transparent 72%),
+    linear-gradient(to bottom, var(--color-ink-deep), var(--color-ink) 90%);
+}
+@media (min-width: 1024px) {
+  .hero-stage {
+    background: linear-gradient(to bottom, var(--color-ink-deep), var(--color-ink) 90%);
+  }
+}
+.hero-stage .lead {
+  color: rgb(247 243 232 / 0.78);
+}
+/* Brass leads on navy: ink buttons would vanish. */
+.hero-stage .btn-primary {
+  background: var(--color-brass);
+  color: var(--color-ink-deep);
+}
+.hero-stage .btn-primary:hover {
+  background: var(--color-brass-glow);
+}
+
+/* The light spreads from the flame along the hero's bottom edge. */
+.hero-rule {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 2px;
+  transform-origin: 80% 50%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-brass) 18%,
+    var(--color-brass-glow) 78%,
+    var(--color-brass) 92%,
+    transparent
+  );
+  animation: rule-draw 1800ms cubic-bezier(0.16, 1, 0.3, 1) 500ms both;
+}
+@keyframes rule-draw {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+/* Headline words rise in sequence, matching the order it is read. */
+.word {
+  display: inline-block;
+  animation: word-rise 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--w, 0) * 80ms + 160ms);
+}
+@keyframes word-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.45em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The flame lights, then settles into a slow flicker. */
+.hero-stage .flame-fire {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation:
+    ignite 1100ms cubic-bezier(0.16, 1, 0.3, 1) 300ms both,
+    flicker 3.4s ease-in-out 1400ms infinite alternate;
+}
+@keyframes ignite {
+  from {
+    opacity: 0;
+    transform: scale(0.15, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes flicker {
+  0% {
+    transform: scale(1, 1) rotate(-1.2deg);
+  }
+  45% {
+    transform: scale(0.97, 1.045) rotate(0.8deg);
+  }
+  100% {
+    transform: scale(1.015, 0.985) rotate(1.4deg);
+  }
+}
+
+/* The glow behind the flame breathes with it. */
+.hero-stage .flame-glow {
+  animation: glow-breathe 6s ease-in-out infinite alternate;
+}
+@keyframes glow-breathe {
+  from {
+    opacity: 0.7;
+    scale: 1;
+  }
+  to {
+    opacity: 1;
+    scale: 1.08;
+  }
+}
+
+/* Sparks lifting off the flame. */
+.embers {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.ember {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--s, 4px);
+  height: var(--s, 4px);
+  border-radius: 9999px;
+  background: var(--color-brass-glow);
+  opacity: 0;
+  animation: ember var(--t, 7s) cubic-bezier(0.25, 0.6, 0.4, 1) var(--d, 0s) infinite;
+}
+@keyframes ember {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  14% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--dx, 0px), -15rem, 0) scale(0.3);
+  }
+}
+
+/* Kinetic marquee: two identical runs, translated by exactly one run for a seamless loop. */
+@keyframes marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 48s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Form field states: label above, helper and error text below. */
+.field-error {
+  display: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #9b2c1f;
+}
+[aria-invalid='true'] ~ .field-error {
+  display: block;
+}
+[aria-invalid='true'] {
+  border-color: #9b2c1f !important;
+}
+
+/* Entrance + reveal. Content stays visible without JS (the `js` class is set in <head>). */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-enter {
+  animation: rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.hero-enter-1 {
+  animation-delay: 90ms;
+}
+.hero-enter-2 {
+  animation-delay: 180ms;
+}
+.hero-enter-3 {
+  animation-delay: 270ms;
+}
+
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+html.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .hero-enter {
+    animation: none;
+  }
+  html.js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .btn {
+    transition: none;
+  }
+  .marquee-track {
+    animation: none;
+  }
+  .marquee {
+    overflow-x: auto;
+    mask-image: none;
+  }
+  .word,
+  .hero-rule,
+  .hero-stage .flame-fire,
+  .hero-stage .flame-glow {
+    animation: none;
+  }
+  .ember {
+    display: none;
+  }
+}

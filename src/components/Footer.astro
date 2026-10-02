@@ -1,0 +1,82 @@
+---
+import { SIGNUP_URL, TERMS_URL, PRIVACY_URL, SOCIAL } from '../config';
+
+const columns = [
+  {
+    heading: 'Product',
+    links: [
+      { label: 'Features', href: '/#features' },
+      { label: 'Pricing', href: '/#pricing' },
+      { label: 'Integrations', href: '/integrations' },
+      { label: 'Security', href: '/security' },
+    ],
+  },
+  {
+    heading: 'Company',
+    links: [
+      { label: 'Why EventLantern', href: '/why' },
+      { label: 'About', href: '/about' },
+      { label: 'Contact', href: '/contact' },
+      { label: 'Start free', href: SIGNUP_URL },
+    ],
+  },
+  {
+    heading: 'Legal',
+    links: [
+      { label: 'Terms', href: TERMS_URL },
+      { label: 'Privacy policy', href: PRIVACY_URL },
+    ],
+  },
+];
+
+const year = new Date().getFullYear();
+---
+
+<footer class="on-dark border-t border-ivory/10 bg-ink text-ivory/80">
+  <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+    <div class="grid gap-12 md:grid-cols-5">
+      <div class="md:col-span-2">
+        <a href="/" aria-label="EventLantern home">
+          <img src="/logo-reverse.svg" alt="EventLantern" class="h-10 w-auto rounded-sm" width="160" height="40" />
+        </a>
+        <p class="mt-5 max-w-xs text-sm leading-6">
+          One clear view of the whole event. Registration, programming, speakers, sponsors, check-in and reporting, together.
+        </p>
+        {
+          SOCIAL.linkedin && (
+            <a
+              href={SOCIAL.linkedin}
+              class="mt-5 inline-block text-sm font-semibold text-ivory underline decoration-brass underline-offset-4"
+              rel="noopener"
+              target="_blank"
+            >
+              EventLantern on LinkedIn
+            </a>
+          )
+        }
+      </div>
+
+      {
+        columns.map((col) => (
+          <div>
+            <h3 class="font-mono text-xs font-medium text-brass-glow">{col.heading}</h3>
+            <ul class="mt-4 space-y-3">
+              {col.links.map((link) => (
+                <li>
+                  <a href={link.href} class="text-sm transition-colors hover:text-white">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="mt-14 flex flex-col gap-2 border-t border-ivory/15 pt-6 text-sm text-ivory/60 sm:flex-row sm:justify-between">
+      <p>© {year} EventLantern. All rights reserved.</p>
+      <p>Formerly EventBound.</p>
+    </div>
+  </div>
+</footer>

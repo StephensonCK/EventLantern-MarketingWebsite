@@ -1,0 +1,28 @@
+---
+// A few sparks rising off the flame. Position the origin with `left` / `top` (percent of the
+// nearest positioned parent). Decorative, CSS-only, and switched off under reduced motion.
+interface Props {
+  left: string;
+  top: string;
+}
+const { left, top } = Astro.props;
+
+// [horizontal drift, size, duration, delay] per ember, hand-tuned so they never sync up.
+const embers = [
+  ['-14px', '6px', '6.4s', '0s'],
+  ['18px', '4px', '7.6s', '1.1s'],
+  ['-30px', '7px', '8.2s', '2.3s'],
+  ['10px', '5px', '6.9s', '3.4s'],
+  ['34px', '6px', '8.8s', '0.7s'],
+  ['-8px', '3px', '7.1s', '4.6s'],
+  ['-24px', '5px', '9.2s', '5.2s'],
+];
+---
+
+<div class="embers" style={`left:${left};top:${top}`} aria-hidden="true">
+  {
+    embers.map(([dx, size, dur, delay]) => (
+      <span class="ember" style={`--dx:${dx};--s:${size};--t:${dur};--d:${delay}`} />
+    ))
+  }
+</div>

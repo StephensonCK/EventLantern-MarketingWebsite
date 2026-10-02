@@ -1,0 +1,145 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+const practices = [
+  {
+    title: 'Enterprise-grade data isolation',
+    description:
+      "Every organization's data is isolated at the database level with Row-Level Security, not just application-level checks. Even if there were a bug in the code, the database itself prevents cross-tenant access.",
+  },
+  {
+    title: 'Zero-trust architecture',
+    description:
+      'All data access is validated server-side through cryptographic authentication. Admin actions are verified at the database layer, not in the browser, so they cannot be spoofed or bypassed.',
+  },
+  {
+    title: 'Secure public portals',
+    description:
+      'Sponsor, exhibitor, and attendee portals use 256-bit cryptographically random tokens. No passwords to leak, no accounts to compromise.',
+  },
+  {
+    title: 'Full audit trail',
+    description:
+      'Every action, from event updates to portal profile changes, is logged with timestamps and metadata. Your compliance team gets complete visibility.',
+  },
+  {
+    title: 'Brute-force protection',
+    description: 'Rate limiting on sensitive endpoints, such as promo code validation, prevents automated attacks.',
+  },
+  {
+    title: 'Payments powered by Stripe',
+    description: 'PCI-compliant payment processing through Stripe Connect. EventLantern never stores credit card data.',
+  },
+];
+
+const overview = [
+  { area: 'Data isolation', implementation: 'Row-Level Security per organization' },
+  { area: 'Authentication', implementation: 'Email verification required, no anonymous access' },
+  { area: 'Authorization', implementation: 'Role-based (Admin/Member) enforced server-side' },
+  { area: 'Encryption', implementation: 'TLS in transit, AES-256 at rest (via infrastructure)' },
+  { area: 'Audit logging', implementation: 'All mutations logged with actor, entity, and metadata' },
+  { area: 'Payment security', implementation: 'PCI DSS via Stripe, no card data stored' },
+  { area: 'Portal access', implementation: '256-bit random tokens, rate-limited endpoints' },
+];
+
+const faqs = [
+  {
+    question: "How is my organization's data isolated?",
+    answer:
+      "Every organization's data is isolated at the database level using Row-Level Security (RLS). Even if a code-level bug exists, the database itself prevents cross-tenant data access.",
+  },
+  {
+    question: 'Is EventLantern SOC 2 compliant?',
+    answer:
+      'EventLantern is built on infrastructure that meets SOC 2 Type II standards. Our hosting provider and payment processor both maintain independent SOC 2 certifications.',
+  },
+  {
+    question: 'How are payments secured?',
+    answer:
+      'All payments are processed through Stripe, a PCI DSS Level 1 certified payment processor. EventLantern never stores credit card numbers on its own servers.',
+  },
+  {
+    question: 'Are sponsor and attendee portals secure?',
+    answer:
+      'Yes. All portals use 256-bit cryptographically random access tokens. There are no passwords to leak or accounts to compromise.',
+  },
+  {
+    question: 'Do you maintain audit trails?',
+    answer:
+      'Every action, from event updates to portal profile changes, is logged with timestamps and metadata, giving your compliance team full visibility.',
+  },
+];
+---
+
+<BaseLayout
+  title="Security | EventLantern"
+  description="Security built into every layer: row-level data isolation, zero-trust architecture, encrypted portals, audit trails, and PCI-compliant payments."
+>
+  <PageHero
+    eyebrow="Security"
+    title="Built secure, not bolted on."
+    lede="Security is part of the architecture, from database isolation to payment processing."
+  />
+
+  <section class="py-24 sm:py-28">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <SectionHeader eyebrow="How we protect your data" title="Secure by design" />
+      <div class="mt-14 grid gap-x-16 gap-y-12 md:grid-cols-2">
+        {
+          practices.map((practice, i) => (
+            <div class:list={['border-t-2 border-ink pt-6', i % 2 === 1 && 'md:mt-16']} data-reveal style={`--i:${i % 2}`}>
+              <h3 class="text-xl font-semibold">{practice.title}</h3>
+              <p class="mt-3 leading-7 text-ink-soft">{practice.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-rule bg-paper py-24 sm:py-28">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <SectionHeader eyebrow="For RFPs and enterprise teams" title="Security overview" />
+      <div class="mt-12 max-w-4xl overflow-x-auto" data-reveal>
+        <table class="w-full min-w-[480px] text-left text-sm">
+          <thead>
+            <tr class="border-b-2 border-ink">
+              <th scope="col" class="py-3 pr-6 font-semibold">Area</th>
+              <th scope="col" class="py-3 font-semibold">Implementation</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-rule">
+            {
+              overview.map((row) => (
+                <tr>
+                  <th scope="row" class="py-4 pr-6 font-semibold">{row.area}</th>
+                  <td class="py-4 font-mono text-[0.82rem] text-ink-soft">{row.implementation}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 sm:py-28">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <SectionHeader
+        eyebrow="FAQ"
+        title="Security questions"
+        subtitle="Common questions about how EventLantern protects your data."
+      />
+      <FaqAccordion items={faqs} />
+    </div>
+  </section>
+
+  <CtaBand
+    title="Ready to run a secure event?"
+    subtitle="Get started with EventLantern and give your attendees and stakeholders the protection they deserve."
+  />
+</BaseLayout>
