@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { resources } from '../../data/resources';
+---
+
+<BaseLayout title="Free Event Planning Templates & Checklists | EventLantern" description="Free event planning resources: a conference run-of-show template, sponsor deliverables tracker, and event check-in checklist. Editable downloads, no signup required." breadcrumbs={[{ name: 'Resources', href: '/resources' }]}>
+  <section class="hero-stage on-dark">
+    <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
+      <p class="eyebrow">The organizer's toolkit</p>
+      <h1 class="display mt-5 max-w-4xl">Event planning templates, ready for your team.</h1>
+      <p class="lead mt-7 max-w-2xl">Practical templates for the program, your partners, and the front desk. Download a copy and make it fit your event.</p>
+      <p class="mt-6 font-mono text-sm text-brass-glow">Free downloads · No signup required</p>
+    </div>
+    <div class="hero-rule" aria-hidden="true"></div>
+  </section>
+  <section class="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24" aria-label="Event planning resources">
+    <ul class="grid gap-6 lg:grid-cols-3">
+      {resources.map((resource, index) => (
+        <li class="flex flex-col overflow-hidden rounded-2xl border border-rule bg-paper">
+          <div class="flex items-end justify-between border-b border-rule bg-paper-deep px-7 py-6">
+            <span class="font-mono text-xs font-medium text-brass-text">{resource.category}</span>
+            <span class="text-4xl font-semibold tracking-tight text-ink/20" aria-hidden="true">0{index + 1}</span>
+          </div>
+          <a href={`/resources/${resource.slug}`} aria-labelledby={`${resource.slug}-title`} class="group flex flex-1 flex-col p-7 transition-colors hover:bg-paper-deep/40">
+            <h2 id={`${resource.slug}-title`} class="text-2xl font-semibold leading-snug group-hover:underline decoration-brass underline-offset-4">{resource.title}</h2>
+            <p class="mt-4 leading-7 text-ink-soft">{resource.intro}</p>
+            <ul class="my-7 space-y-2 border-l-2 border-brass pl-4 text-sm text-ink-soft">{resource.includes.map((item) => <li>{item}</li>)}</ul>
+            <span class="mt-auto self-end text-xl text-brass-text" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="mt-14 grid gap-5 border-t border-rule pt-8 md:grid-cols-2 md:gap-16">
+      <h2 class="text-2xl font-semibold">Built to be adapted.</h2>
+      <p class="leading-7 text-ink-soft">Each download is a CSV file you can open in Excel, Google Sheets, or another spreadsheet app. Start with the examples, assign your owners, and replace the sample timing with your own. The guides explain how to put each template to work.</p>
+    </div>
+  </section>
+</BaseLayout>

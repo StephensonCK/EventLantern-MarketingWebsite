@@ -26,6 +26,13 @@ Key facts:
 - [Event website builder](https://eventlantern.com/solutions/event-website-builder): One-click branded public event websites with registration.
 - [Meetup and workshop software](https://eventlantern.com/solutions/meetup-and-workshop-management-software): Free-plan tools for small events.
 
+## Resources
+
+- [Event planning resources](https://eventlantern.com/resources): Free editable CSV templates and practical guides, with no signup required.
+- [Conference run-of-show template](https://eventlantern.com/resources/conference-run-of-show-template): Twelve example production cues with timings, owners, dependencies, and fallbacks. Includes a downloadable CSV.
+- [Sponsor deliverables tracker](https://eventlantern.com/resources/sponsor-deliverables-tracker): Eight sample deliverables with asset, approval, and delivery deadlines, plus evidence and follow-up fields. Includes a downloadable CSV.
+- [Event check-in checklist](https://eventlantern.com/resources/event-check-in-checklist): Eighteen tasks for desk preparation, scanning, badges, exceptions, offline fallback, and reconciliation. Includes a downloadable CSV.
+
 ## Company
 
 - [Why EventLantern](https://eventlantern.com/why): How EventLantern differs from enterprise event software: published pricing, setup in minutes, one dashboard.

@@ -5,6 +5,7 @@ const links = [
   { label: 'Platform', href: '/#features' },
   { label: 'Solutions', href: '/solutions' },
   { label: 'Pricing', href: '/pricing' },
+  { label: 'Resources', href: '/resources' },
   { label: 'Company', href: '/about' },
 ];
 const moreLinks = [
@@ -14,7 +15,7 @@ const moreLinks = [
   { label: 'Contact', href: '/contact' },
 ];
 const path = Astro.url.pathname;
-const isCurrent = (href: string) => href === '/#features' ? path === '/' : href === '/solutions' ? path.startsWith('/solutions') : href === '/about' ? ['/about', '/why', '/security'].includes(path) : path === href;
+const isCurrent = (href: string) => href === '/#features' ? path === '/' : ['/solutions', '/resources'].includes(href) ? path.startsWith(href) : href === '/about' ? ['/about', '/why', '/security'].includes(path) : path === href;
 ---
 
 <header class="sticky top-0 z-40 border-b border-rule/70 bg-ivory/90 backdrop-blur">
@@ -23,7 +24,7 @@ const isCurrent = (href: string) => href === '/#features' ? path === '/' : href 
       <img src="/logo.svg" alt="EventLantern" class="h-9 w-auto" width="150" height="37" />
     </a>
 
-    <ul class="hidden items-center gap-8 lg:flex">
+    <ul class="hidden items-center gap-5 lg:flex xl:gap-8">
       {
         links.map((link) => (
           <li>

@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { resources } from '../../data/resources';
+import { SITE_URL } from '../../config';
+
+export function getStaticPaths() {
+  return resources.map((resource) => ({ params: { slug: resource.slug }, props: { resource } }));
+}
+const { resource } = Astro.props;
+const downloadUrl = `/resources/${resource.slug}.csv`;
+const related = resources.filter((item) => item.slug !== resource.slug);
+const schema = {
+  '@context': 'https://schema.org', '@type': 'Article',
+  headline: resource.title, description: resource.description,
+  mainEntityOfPage: `${SITE_URL}/resources/${resource.slug}/`,
+  author: { '@type': 'Organization', name: 'EventLantern', url: SITE_URL },
+  publisher: { '@id': `${SITE_URL}/#organization` },
+};
+---
+
+<BaseLayout title={`Free ${resource.title} | EventLantern`} description={resource.description} breadcrumbs={[{ name: 'Resources', href: '/resources' }, { name: resource.title, href: `/resources/${resource.slug}` }]}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <section class="hero-stage on-dark">
+    <div class="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[1.4fr_0.6fr] lg:items-end lg:gap-16">
+      <div>
+        <a href="/resources" class="text-sm text-ivory/70 underline decoration-brass underline-offset-4">← All resources</a>
+        <p class="eyebrow mt-8">{resource.category}</p>
+        <h1 class="mt-4 text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">{resource.title}</h1>
+        <p class="lead mt-6 max-w-2xl">{resource.intro}</p>
+      </div>
+      <div class="rounded-2xl border border-ivory/20 bg-ivory/5 p-6 sm:p-7">
+        <p class="font-mono text-xs text-brass-glow">IN THE DOWNLOAD</p>
+        <ul class="mt-4 space-y-3 text-sm text-ivory/90">{resource.includes.map((item) => <li>{item}</li>)}</ul>
+        <a class="btn btn-primary mt-7 w-full" href={downloadUrl} download>Download free CSV <span aria-hidden="true">↓</span></a>
+        <p class="mt-3 text-center text-xs text-ivory/65">Editable in Excel or Google Sheets. No signup.</p>
+      </div>
+    </div>
+    <div class="hero-rule" aria-hidden="true"></div>
+  </section>
+
+  <div class="mx-auto grid max-w-7xl gap-12 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-20">
+    <aside>
+      <nav aria-label="Guide contents" class="lg:sticky lg:top-28">
+        <p class="eyebrow">In this guide</p>
+        <ul class="mt-5 space-y-4 text-sm leading-6">
+          <li><a href="#template-preview" class="text-ink-soft hover:text-brass-text">Inside the template</a></li>
+          {resource.sections.map((section, index) => <li><a href={`#${section.id}`} class="text-ink-soft hover:text-brass-text">{index + 1}. {section.title}</a></li>)}
+        </ul>
+      </nav>
+    </aside>
+    <article class="min-w-0">
+      <section id="template-preview" class="scroll-mt-24">
+        <p class="eyebrow">Ready to edit</p>
+        <h2 class="mt-3 text-3xl font-semibold">Inside the template</h2>
+        <p class="mt-5 leading-8 text-ink-soft">{resource.setup}</p>
+        <p class="mt-4 text-sm leading-7 text-ink-soft">Open the CSV in your spreadsheet app, then save it as a workbook or Google Sheet to add filters, dropdowns, or formatting. CSV files contain the data only.</p>
+        <div class="mt-7 overflow-x-auto rounded-xl border border-rule bg-paper" role="region" aria-label="Template preview table" tabindex="0">
+          <table class="w-full min-w-[32rem] text-left text-sm">
+            <caption class="border-b border-rule px-5 py-3 text-left font-mono text-xs text-ink-soft">First 4 of {resource.rows.length} example rows · selected columns</caption>
+            <thead class="bg-paper-deep"><tr>{resource.previewColumns.map((index) => <th scope="col" class="px-5 py-4 font-semibold">{resource.columns[index]}</th>)}</tr></thead>
+            <tbody>{resource.rows.slice(0, 4).map((row) => <tr class="border-t border-rule">{resource.previewColumns.map((index) => <td class="px-5 py-4 align-top text-ink-soft">{row[index]}</td>)}</tr>)}</tbody>
+          </table>
+        </div>
+        <p class="mt-3 text-xs leading-6 text-ink-soft">Illustrative examples. The download includes every row and column; adjust them to your event.</p>
+      </section>
+      {resource.sections.map((section, index) => (
+        <section id={section.id} class="mt-12 scroll-mt-24 border-t border-rule pt-10">
+          <p class="font-mono text-xs font-medium text-brass-text">0{index + 1}</p>
+          <h2 class="mt-3 text-2xl font-semibold leading-snug sm:text-3xl">{section.title}</h2>
+          <p class="mt-5 leading-8 text-ink-soft">{section.body}</p>
+          <ul class="mt-6 space-y-4">{section.steps.map((step) => <li class="border-l-2 border-rule pl-5 leading-7">{step}</li>)}</ul>
+        </section>
+      ))}
+      <div class="mt-12 rounded-2xl border border-rule bg-paper p-7 sm:p-9">
+        <h2 class="text-2xl font-semibold">Make a copy for your event.</h2>
+        <p class="mt-3 leading-7 text-ink-soft">Download the template, replace the examples, and share one working version with your team.</p>
+        <a href={downloadUrl} download class="btn btn-primary mt-6">Download free CSV <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="mt-10 border-t border-rule pt-8">
+        <p class="font-mono text-xs font-medium text-brass-text">PUT IT INTO PRACTICE</p>
+        <a href={`/solutions/${resource.solutionSlugs[0]}`} class="link mt-3 inline-block">{resource.solutionLabel} <span aria-hidden="true">↗</span></a>
+      </div>
+    </article>
+  </div>
+  <section class="border-t border-rule bg-paper py-14">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <h2 class="text-2xl font-semibold">More tools for the team</h2>
+      <ul class="mt-7 grid gap-6 md:grid-cols-2">{related.map((item) => <li><a href={`/resources/${item.slug}`} class="link">{item.title} <span aria-hidden="true">↗</span></a></li>)}</ul>
+    </div>
+  </section>
+</BaseLayout>
