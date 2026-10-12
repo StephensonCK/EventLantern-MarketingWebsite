@@ -1,0 +1,153 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { SIGNUP_URL, SITE_URL } from '../config';
+import { plans, matrix } from '../data/pricing';
+
+const faqs = [
+  {
+    question: 'How much does EventLantern cost?',
+    answer:
+      'EventLantern has three published plans: Free ($0), Starter ($49 per month), and Professional ($249 per month). Plans are month to month, and there is no setup fee or mandatory sales call.',
+  },
+  {
+    question: 'Is there a free event management plan?',
+    answer:
+      'Yes. The Free plan covers one active event with up to 50 attendees, with no credit card required. It includes session scheduling, speaker management, QR code check-in, badge printing, an attendee portal, surveys, and virtual and hybrid events.',
+  },
+  {
+    question: 'Does EventLantern charge a fee on ticket sales?',
+    answer:
+      'No. EventLantern adds no markup on ticket processing. Paid registrations run through Stripe Connect, and standard Stripe fees of 2.9% + $0.30 per card transaction go directly to Stripe.',
+  },
+  {
+    question: 'Can I change plans later?',
+    answer:
+      'Yes. Start on Free and move up when an event needs more attendees, more events, or features like email campaigns and sponsor management.',
+  },
+  {
+    question: 'What is included on the Professional plan?',
+    answer:
+      'Professional adds unlimited events, up to 5,000 attendees per event, advanced analytics, email campaigns, sponsor and exhibitor management, lead capture, priority support, and the HubSpot, Salesforce, Twilio, Slack, Mailchimp, SendGrid, and Zapier integrations.',
+  },
+];
+
+const pricingSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'EventLantern',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  url: `${SITE_URL}/pricing`,
+  offers: plans.map((plan) => ({
+    '@type': 'Offer',
+    name: plan.name,
+    description: `${plan.description} ${plan.note}`,
+    price: plan.price.replace('$', ''),
+    priceCurrency: 'USD',
+    url: `${SITE_URL}/pricing`,
+  })),
+};
+---
+
+<BaseLayout
+  title="Event Software Pricing: Free, $49 & $249 Plans | EventLantern"
+  description="Published EventLantern pricing: a free plan for one event, Starter at $49/mo, Professional at $249/mo. No ticketing markup, no sales call, month to month."
+  breadcrumbs={[{ name: 'Pricing', href: '/pricing' }]}
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(pricingSchema)} />
+
+  <PageHero
+    eyebrow="Pricing"
+    title="Event software pricing you can read."
+    lede="Three published plans, month to month. Start free, move up when your event needs it, and never pay an EventLantern markup on ticket processing."
+  >
+    <a href={SIGNUP_URL} class="btn btn-primary">Start free</a>
+  </PageHero>
+
+  <section class="py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <div class="grid border-y border-rule md:grid-cols-[1fr_1fr_1.35fr] md:divide-x md:divide-rule">
+        {
+          plans.map((plan, i) => (
+            <div
+              class:list={['relative flex flex-col p-8 sm:p-10', i > 0 && 'border-t border-rule md:border-t-0', plan.featured && 'bg-paper']}
+              data-reveal
+              style={`--i:${i}`}
+            >
+              {plan.featured && <span class="absolute inset-x-0 top-0 h-1 bg-brass" aria-hidden="true" />}
+              <h2 class="text-xl font-semibold">{plan.name}</h2>
+              <p class="mt-5 font-mono text-5xl font-medium tracking-tight">
+                {plan.price}<span class="text-lg text-ink-soft">{plan.period}</span>
+              </p>
+              <p class="mt-4 font-semibold">{plan.description}</p>
+              <p class="mt-1 text-ink-soft">{plan.note}</p>
+              <a href={SIGNUP_URL} class:list={['btn mt-8 self-start', plan.featured ? 'btn-primary' : 'btn-ghost']}>
+                {plan.price === '$0' ? 'Start free' : `Choose ${plan.name}`}
+              </a>
+            </div>
+          ))
+        }
+      </div>
+      <p class="mt-8 max-w-3xl text-sm leading-6 text-ink-soft">
+        Paid registrations are processed through Stripe Connect. Standard Stripe fees of 2.9% + $0.30 per card transaction apply. EventLantern adds no markup on top.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-t border-rule bg-paper py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <h2 class="h-section" data-reveal>Compare every feature, plan by plan</h2>
+      <div class="mt-10 overflow-x-auto" data-reveal>
+        <table class="w-full min-w-[560px] text-left text-sm">
+          <thead>
+            <tr class="border-b-2 border-ink">
+              <th scope="col" class="py-3 pr-4 font-semibold">Feature</th>
+              <th scope="col" class="px-4 py-3 text-center font-semibold">Free</th>
+              <th scope="col" class="px-4 py-3 text-center font-semibold">Starter</th>
+              <th scope="col" class="px-4 py-3 text-center font-semibold">Professional</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-rule">
+            {
+              matrix.map((row) => (
+                <tr>
+                  <th scope="row" class="py-3 pr-4 font-medium text-ink-soft">{row.feature}</th>
+                  {row.cells.map((cell) => (
+                    <td class="px-4 py-3 text-center font-mono text-[0.8rem]">
+                      {cell === true ? (
+                        <svg class="mx-auto h-4 w-4 text-brass-text" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Included">
+                          <path d="M3 8.5l3.2 3L13 4.5" />
+                        </svg>
+                      ) : cell === false ? (
+                        <span class="inline-block h-px w-3 bg-ink/30 align-middle" role="img" aria-label="Not included" />
+                      ) : cell === 'link' ? (
+                        <a href="/integrations" class="link !font-sans text-xs">Details</a>
+                      ) : (
+                        cell
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <h2 class="h-section" data-reveal>Pricing questions, answered.</h2>
+      <FaqAccordion items={faqs} />
+    </div>
+  </section>
+
+  <CtaBand
+    title="Run your first event on the free plan."
+    subtitle="No credit card and no sales call. Upgrade only when your event requires it."
+  />
+</BaseLayout>

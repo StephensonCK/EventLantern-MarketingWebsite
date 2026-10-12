@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { solutions } from '../../data/solutions';
+import { SIGNUP_URL } from '../../config';
+---
+
+<BaseLayout
+  title="Event Management Solutions | EventLantern"
+  description="Explore EventLantern by what you need to run: conference management, registration and ticketing, virtual and hybrid events, sponsors and exhibitors, check-in, and event websites."
+  breadcrumbs={[{ name: 'Solutions', href: '/solutions' }]}
+>
+  <PageHero
+    eyebrow="Solutions"
+    title="Event management, by what you need to run."
+    lede="One platform, organized around the work: from the first registration to the post-event report."
+  >
+    <a href={SIGNUP_URL} class="btn btn-primary">Start free</a>
+  </PageHero>
+
+  <section class="py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <ul class="rule-list border-y border-rule">
+        {
+          solutions.map((solution, i) => (
+            <li class="grid gap-2 py-7 md:grid-cols-12 md:gap-8" data-reveal style={`--i:${i}`}>
+              <h2 class="text-xl font-semibold md:col-span-5">
+                <a href={`/solutions/${solution.slug}`} class="link">{solution.label}</a>
+              </h2>
+              <p class="leading-7 text-ink-soft md:col-span-7">{solution.lede}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand title="Start with the one thing you need." subtitle="Every plan includes the core tools. Start free and grow from there." />
+</BaseLayout>

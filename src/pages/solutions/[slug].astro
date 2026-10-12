@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import FaqAccordion from '../../components/FaqAccordion.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { solutions } from '../../data/solutions';
+import { SIGNUP_URL, SITE_URL } from '../../config';
+
+export function getStaticPaths() {
+  return solutions.map((solution) => ({ params: { slug: solution.slug }, props: { solution } }));
+}
+
+const { solution } = Astro.props;
+const related = solutions.filter((s) => s.slug !== solution.slug);
+
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: solution.title,
+  description: solution.description,
+  url: `${SITE_URL}/solutions/${solution.slug}`,
+  isPartOf: { '@id': `${SITE_URL}/#website` },
+  about: { '@type': 'SoftwareApplication', name: 'EventLantern', applicationCategory: 'BusinessApplication' },
+};
+---
+
+<BaseLayout
+  title={solution.title}
+  description={solution.description}
+  breadcrumbs={[
+    { name: 'Solutions', href: '/solutions' },
+    { name: solution.label, href: `/solutions/${solution.slug}` },
+  ]}
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+
+  <PageHero eyebrow={solution.eyebrow} title={solution.h1} lede={solution.lede}>
+    <a href={SIGNUP_URL} class="btn btn-primary">Start free</a>
+    <a href="/pricing" class="btn btn-ghost">See pricing</a>
+  </PageHero>
+
+  <section class="py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <p class="lead max-w-3xl" data-reveal>{solution.intro}</p>
+
+      <div class="mt-16 grid gap-10 md:grid-cols-3">
+        {
+          solution.sections.map((section, i) => (
+            <div data-reveal style={`--i:${i}`}>
+              <h2 class="text-xl font-semibold">{section.title}</h2>
+              <p class="mt-3 leading-7 text-ink-soft">{section.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-rule bg-paper py-20 sm:py-24">
+    <div class="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-12">
+      <div class="lg:col-span-4" data-reveal>
+        <h2 class="h-section">What is included</h2>
+      </div>
+      <ul class="rule-list border-y border-rule lg:col-span-8">
+        {
+          solution.points.map((point, i) => (
+            <li class="grid gap-1 py-5 sm:grid-cols-5 sm:gap-6" data-reveal style={`--i:${i}`}>
+              <h3 class="font-semibold sm:col-span-2">{point.title}</h3>
+              <p class="leading-7 text-ink-soft sm:col-span-3">{point.description}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <div class="max-w-3xl" data-reveal>
+        <h2 class="h-section">Plans and pricing</h2>
+        <p class="lead mt-5">{solution.plan}</p>
+        <a href="/pricing" class="link mt-6 inline-block">Compare every plan</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-rule py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <h2 class="h-section" data-reveal>Questions, answered.</h2>
+      <FaqAccordion items={solution.faqs} />
+    </div>
+  </section>
+
+  <section class="border-t border-rule bg-paper py-16">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <h2 class="text-xl font-semibold">More ways EventLantern helps</h2>
+      <ul class="mt-6 grid gap-x-10 gap-y-3 sm:grid-cols-2">
+        {
+          related.map((item) => (
+            <li>
+              <a href={`/solutions/${item.slug}`} class="link">{item.label}</a>
+            </li>
+          ))
+        }
+        <li><a href="/integrations" class="link">Integrations</a></li>
+        <li><a href="/security" class="link">Security</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand
+    title="See your whole event in one place."
+    subtitle="Create your first event without a sales call or a credit card."
+  />
+</BaseLayout>

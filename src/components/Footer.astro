@@ -6,9 +6,21 @@ const columns = [
     heading: 'Product',
     links: [
       { label: 'Features', href: '/#features' },
-      { label: 'Pricing', href: '/#pricing' },
+      { label: 'Pricing', href: '/pricing' },
       { label: 'Integrations', href: '/integrations' },
       { label: 'Security', href: '/security' },
+    ],
+  },
+  {
+    heading: 'Solutions',
+    links: [
+      { label: 'Conference management', href: '/solutions/conference-management-software' },
+      { label: 'Registration and ticketing', href: '/solutions/event-registration-software' },
+      { label: 'Virtual and hybrid events', href: '/solutions/virtual-and-hybrid-event-software' },
+      { label: 'Sponsors and exhibitors', href: '/solutions/sponsor-and-exhibitor-management-software' },
+      { label: 'Check-in and badges', href: '/solutions/event-check-in-and-badge-printing' },
+      { label: 'Event websites', href: '/solutions/event-website-builder' },
+      { label: 'Meetups and workshops', href: '/solutions/meetup-and-workshop-management-software' },
     ],
   },
   {
@@ -16,6 +28,7 @@ const columns = [
     links: [
       { label: 'Why EventLantern', href: '/why' },
       { label: 'About', href: '/about' },
+      { label: 'EventBound is now EventLantern', href: '/eventbound' },
       { label: 'Contact', href: '/contact' },
       { label: 'Start free', href: SIGNUP_URL },
     ],
@@ -34,7 +47,7 @@ const year = new Date().getFullYear();
 
 <footer class="on-dark border-t border-ivory/10 bg-ink text-ivory/80">
   <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8">
-    <div class="grid gap-12 md:grid-cols-5">
+    <div class="grid gap-12 md:grid-cols-6">
       <div class="md:col-span-2">
         <a href="/" aria-label="EventLantern home">
           <img src="/logo-reverse.svg" alt="EventLantern" class="h-10 w-auto rounded-sm" width="160" height="40" />

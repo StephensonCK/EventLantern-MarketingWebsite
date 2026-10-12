@@ -9,6 +9,7 @@ import Embers from '../components/Embers.astro';
 import Words from '../components/Words.astro';
 import type { LogoName } from '../lib/logos';
 import { SIGNUP_URL } from '../config';
+import { plans, matrix } from '../data/pricing';
 
 const pillars = [
   {
@@ -91,50 +92,6 @@ const tools: { name: string; logo: LogoName }[] = [
   { name: 'Zapier', logo: 'zapier' },
 ];
 
-const plans = [
-  { name: 'Free', price: '$0', period: '', description: 'Get started with no credit card.', note: 'One active event, up to 50 attendees.' },
-  { name: 'Starter', price: '$49', period: '/mo', description: 'Small to mid-size events.', note: 'Three events, up to 500 attendees each.' },
-  { name: 'Professional', price: '$249', period: '/mo', description: 'Several events at scale.', note: 'Unlimited events, up to 5,000 attendees each.', featured: true },
-];
-
-type Cell = boolean | string | 'link';
-const matrix: { feature: string; cells: [Cell, Cell, Cell] }[] = [
-  { feature: 'Events', cells: ['1', '3', 'Unlimited'] },
-  { feature: 'Attendees per event', cells: ['50', '500', '5,000'] },
-  { feature: 'Session scheduling', cells: [true, true, true] },
-  { feature: 'Speaker management', cells: [true, true, true] },
-  { feature: 'QR code check-in', cells: [true, true, true] },
-  { feature: 'Badge printing', cells: [true, true, true] },
-  { feature: 'Attendee portal', cells: [true, true, true] },
-  { feature: 'Surveys and feedback', cells: [true, true, true] },
-  { feature: 'Virtual events', cells: [true, true, true] },
-  { feature: 'Hybrid events', cells: [true, true, true] },
-  { feature: 'Reports and analytics', cells: ['Basic', 'Standard', 'Advanced'] },
-  { feature: 'Engagement scoring', cells: [false, true, true] },
-  { feature: 'Session trends', cells: [false, true, true] },
-  { feature: 'Sponsor ROI', cells: [false, true, true] },
-  { feature: 'Email campaigns', cells: [false, false, true] },
-  { feature: 'Paid registration', cells: [false, true, true] },
-  { feature: 'Promo codes', cells: [false, true, true] },
-  { feature: 'Website templates', cells: ['Meetup only', 'All', 'All'] },
-  { feature: 'Stripe Connect', cells: [false, true, true] },
-  { feature: 'Custom branding', cells: [true, true, true] },
-  { feature: 'Team collaboration', cells: [true, true, true] },
-  { feature: 'Sponsor management', cells: [false, false, true] },
-  { feature: 'Exhibitor management', cells: [false, false, true] },
-  { feature: 'Lead capture', cells: [false, false, true] },
-  { feature: 'Zoom integration', cells: ['link', 'link', 'link'] },
-  { feature: 'Microsoft Teams integration', cells: ['link', 'link', 'link'] },
-  { feature: 'HubSpot integration', cells: [false, false, 'link'] },
-  { feature: 'Salesforce integration', cells: [false, false, 'link'] },
-  { feature: 'Twilio SMS integration', cells: [false, false, 'link'] },
-  { feature: 'Slack integration', cells: [false, false, 'link'] },
-  { feature: 'Mailchimp integration', cells: [false, false, 'link'] },
-  { feature: 'SendGrid integration', cells: [false, false, 'link'] },
-  { feature: 'Zapier integration', cells: [false, false, 'link'] },
-  { feature: 'Support', cells: ['Email', 'Email', 'Priority'] },
-];
-
 const faqs = [
   {
     question: 'What is EventLantern?',
@@ -195,8 +152,8 @@ const appSchema = {
 ---
 
 <BaseLayout
-  title="EventLantern | See the whole event. Run it as one."
-  description="One clear platform for registration, programming, speakers, sponsors, attendees, check-in, and reporting. Start free, no sales call."
+  title="Event Management Software | EventLantern"
+  description="Event management software for conferences, workshops, and meetups: registration, ticketing, scheduling, speakers, sponsors, QR check-in, and analytics in one place. Free plan, published pricing."
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(appSchema)} />
 
@@ -417,7 +374,10 @@ const appSchema = {
         </div>
       </details>
 
-      <p class="mt-8 max-w-3xl text-sm leading-6 text-ink-soft">
+      <p class="mt-8">
+        <a href="/pricing" class="link">See full pricing and plan details</a>
+      </p>
+      <p class="mt-4 max-w-3xl text-sm leading-6 text-ink-soft">
         Paid registrations are processed through Stripe Connect. Standard Stripe fees of 2.9% + $0.30 per card transaction apply. EventLantern adds no markup on top.
       </p>
     </div>
