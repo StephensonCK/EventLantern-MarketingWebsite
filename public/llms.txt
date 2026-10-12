@@ -10,14 +10,14 @@ Key facts:
 
 ## Product
 
-- [Home](https://eventlantern.com/): Overview of the platform, features, integrations, pricing summary, and FAQ.
+- [Home](https://eventlantern.com/): Platform overview with product screenshots of the event dashboard, multi-track schedule, sponsor management, and public event website, plus integrations, pricing, and FAQ. Screenshots use the fictional Meridian Design Summit demo event.
 - [Pricing](https://eventlantern.com/pricing): Plan prices, limits, and a feature-by-feature comparison of Free, Starter, and Professional.
 - [Integrations](https://eventlantern.com/integrations): Zoom, Microsoft Teams, HubSpot, Salesforce, Twilio, Slack, Mailchimp, SendGrid, and Zapier, with what each does and which plan includes it.
 - [Security](https://eventlantern.com/security): Row-level data isolation, zero-trust architecture, secure portals, audit trails, and PCI-compliant payments through Stripe.
 
 ## Solutions
 
-- [All solutions](https://eventlantern.com/solutions): Index of EventLantern by use case.
+- [All solutions](https://eventlantern.com/solutions): Explore conference management, registration, virtual and hybrid events, partnerships, check-in, event websites, and smaller gatherings.
 - [Conference management software](https://eventlantern.com/solutions/conference-management-software): Multi-track scheduling, speakers, registration, check-in, and analytics.
 - [Event registration and ticketing](https://eventlantern.com/solutions/event-registration-software): Custom forms, free and paid tickets, promo codes, and Stripe payments.
 - [Virtual and hybrid events](https://eventlantern.com/solutions/virtual-and-hybrid-event-software): Online and blended events with Zoom and Microsoft Teams.
@@ -35,6 +35,9 @@ Key facts:
 
 ## Optional
 
+- [Sitemap](https://eventlantern.com/sitemap-index.xml): Automatically generated directory of public website pages.
+- [LinkedIn](https://www.linkedin.com/company/event-lantern): EventLantern's company profile.
+- [Sign in](https://app.eventlantern.com/login): Access an existing EventLantern account.
 - [Sign up free](https://app.eventlantern.com/signup): Create an account and first event.
 - [Terms](https://app.eventlantern.com/terms)
 - [Privacy policy](https://app.eventlantern.com/privacy)
