@@ -52,7 +52,7 @@ public/              Logos, favicons, web manifest, robots.txt, llms.txt, CNAME
 
 ## Brand
 
-The visual identity is the "Wick" logo package. Source files live in the main brand folder (`EventLantern/brand/Brand`), and the web-ready copies are in `public/`.
+The visual identity is the "Wick" logo package. The master files are kept outside this repo, and the web-ready copies are in `public/`.
 
 | Token | Value | Use |
 |---|---|---|
@@ -84,7 +84,7 @@ One-time setup (already done for this repo):
 
 ## The old EventBound domain
 
-`eventbound.tech` is not served from this repo. It still points at the old EventBound site on Netlify (repo `StephensonCK/MarketingWebsite`), whose `netlify.toml` redirects every path to the same path on `eventlantern.com`, and `/signup` to the new app. That Netlify site has to stay up for the redirect to keep working. `app.eventbound.tech` is not redirected.
+`eventbound.tech` is not served from this repo. It redirects every path to the same path on `eventlantern.com`, and `/signup` to the app. That redirect is handled by a separate host outside this repo, which has to stay up for the redirect to keep working. `app.eventbound.tech` is not redirected.
 
 ## Troubleshooting
 
