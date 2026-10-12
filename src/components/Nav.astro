@@ -1,16 +1,20 @@
 ---
-import { SIGNUP_URL } from '../config';
+import { LOGIN_URL, SIGNUP_URL } from '../config';
 
 const links = [
-  { label: 'Features', href: '/#features' },
-  { label: 'Why EventLantern', href: '/why' },
+  { label: 'Platform', href: '/#features' },
   { label: 'Solutions', href: '/solutions' },
   { label: 'Pricing', href: '/pricing' },
+  { label: 'Company', href: '/about' },
+];
+const moreLinks = [
+  { label: 'Why EventLantern', href: '/why' },
   { label: 'Integrations', href: '/integrations' },
   { label: 'Security', href: '/security' },
-  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
 ];
 const path = Astro.url.pathname;
+const isCurrent = (href: string) => href === '/#features' ? path === '/' : href === '/solutions' ? path.startsWith('/solutions') : href === '/about' ? ['/about', '/why', '/security'].includes(path) : path === href;
 ---
 
 <header class="sticky top-0 z-40 border-b border-rule/70 bg-ivory/90 backdrop-blur">
@@ -19,14 +23,14 @@ const path = Astro.url.pathname;
       <img src="/logo.svg" alt="EventLantern" class="h-9 w-auto" width="150" height="37" />
     </a>
 
-    <ul class="hidden items-center gap-7 lg:flex">
+    <ul class="hidden items-center gap-8 lg:flex">
       {
         links.map((link) => (
           <li>
             <a
               href={link.href}
-              aria-current={path === link.href ? 'page' : undefined}
-              class="text-sm font-semibold text-ink-soft transition-colors hover:text-ink aria-[current=page]:text-ink"
+              aria-current={isCurrent(link.href) ? 'page' : undefined}
+              class="border-b-2 border-transparent pb-1 text-sm font-semibold text-ink-soft transition-colors hover:text-ink aria-[current=page]:border-brass aria-[current=page]:text-ink"
             >
               {link.label}
             </a>
@@ -36,7 +40,7 @@ const path = Astro.url.pathname;
     </ul>
 
     <div class="flex items-center gap-3">
-      <a href="/contact" class="hidden text-sm font-semibold text-ink-soft hover:text-ink sm:inline lg:hidden xl:inline">Contact</a>
+      <a href={LOGIN_URL} class="hidden text-sm font-semibold text-ink-soft transition-colors hover:text-ink sm:inline">Sign in</a>
       <a href={SIGNUP_URL} class="btn btn-primary !px-5 !py-2.5 text-sm">Start free</a>
       <button
         id="menu-toggle"
@@ -57,12 +61,19 @@ const path = Astro.url.pathname;
   <div id="mobile-menu" class="hidden border-t border-rule bg-ivory lg:hidden">
     <ul class="mx-auto max-w-7xl px-5 py-3 sm:px-8">
       {
-        [...links, { label: 'Contact', href: '/contact' }].map((link) => (
+        links.map((link) => (
           <li class="border-b border-rule/70 last:border-0">
-            <a href={link.href} class="block py-3.5 text-base font-semibold text-ink">{link.label}</a>
+            <a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined} class="block py-3.5 text-base font-semibold text-ink aria-[current=page]:text-brass-text">{link.label}</a>
           </li>
         ))
       }
+      <li class="pt-4 font-mono text-xs font-medium text-brass-text">More</li>
+      {moreLinks.map((link) => (
+        <li class="border-b border-rule/70 last:border-0">
+          <a href={link.href} class="block py-3 text-sm font-medium text-ink-soft">{link.label}</a>
+        </li>
+      ))}
+      <li><a href={LOGIN_URL} class="block py-3 text-sm font-semibold text-ink sm:hidden">Sign in</a></li>
     </ul>
   </div>
 </header>

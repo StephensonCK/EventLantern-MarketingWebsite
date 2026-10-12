@@ -230,6 +230,111 @@
   background: var(--color-brass-glow);
 }
 
+/* Product views supply the hero's visual weight while the navy stage keeps the brand. */
+.hero-product-viewport {
+  overflow: hidden;
+  border: 1px solid rgb(247 243 232 / 0.3);
+  border-radius: 16px;
+  background: var(--color-paper);
+  box-shadow: 0 30px 75px rgb(3 7 22 / 0.35), 0 0 0 8px rgb(247 243 232 / 0.06);
+}
+.hero-product-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+@media (max-width: 639px) {
+  .hero-product-viewport {
+    height: 235px;
+    border-radius: 12px;
+  }
+  .hero-product-image {
+    width: 730px;
+    max-width: none;
+    height: auto;
+  }
+}
+
+.product-story {
+  display: grid;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+}
+.product-story-copy {
+  max-width: 29rem;
+}
+.story-index {
+  color: var(--color-brass-text);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+.story-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.story-points li {
+  border: 1px solid var(--color-rule);
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  color: var(--color-ink-soft);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.product-story-frame {
+  overflow: hidden;
+  min-width: 0;
+  border: 1px solid var(--color-rule);
+  border-radius: 16px;
+  background: var(--color-ivory);
+  box-shadow: 0 24px 50px rgb(17 27 58 / 0.1);
+}
+.product-story-frame img {
+  transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.product-story-screen {
+  overflow: hidden;
+}
+.product-story-frame:hover img {
+  transform: scale(1.015);
+}
+.story-caption {
+  border-top: 1px solid var(--color-rule);
+  padding: 0.75rem 1rem;
+  color: var(--color-ink-soft);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+}
+@media (max-width: 639px) {
+  .product-story-screen {
+    height: 275px;
+  }
+  .product-story-screen img {
+    width: 680px;
+    max-width: none;
+  }
+}
+@media (min-width: 1024px) {
+  .product-story {
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+  }
+  .product-story-reverse {
+    grid-template-columns: minmax(0, 1.22fr) minmax(0, 0.78fr);
+  }
+  .product-story-reverse .product-story-copy {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .product-story-reverse .product-story-frame {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .product-story-frame-portrait {
+    max-height: 37rem;
+  }
+}
+
 /* The light spreads from the flame along the hero's bottom edge. */
 .hero-rule {
   position: absolute;
@@ -453,5 +558,8 @@ html.js [data-reveal].is-visible {
   }
   .ember {
     display: none;
+  }
+  .product-story-frame img {
+    transition: none;
   }
 }

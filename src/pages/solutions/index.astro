@@ -4,6 +4,17 @@ import PageHero from '../../components/PageHero.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { solutions } from '../../data/solutions';
 import { SIGNUP_URL } from '../../config';
+import { Image } from 'astro:assets';
+import scheduleShot from '../../assets/product/schedule.png';
+
+const summaries: Record<string, { category: string; text: string }> = {
+  'event-registration-software': { category: 'Registration', text: 'Custom forms, free and paid tickets, and every attendee in one place.' },
+  'virtual-and-hybrid-event-software': { category: 'Event formats', text: 'Bring in-person and remote attendees together with connected video tools.' },
+  'sponsor-and-exhibitor-management-software': { category: 'Partnerships', text: 'Manage the pipeline, partner commitments, and leads from one event.' },
+  'event-check-in-and-badge-printing': { category: 'Event day', text: 'Welcome attendees with branded badges and a dedicated QR check-in portal.' },
+  'event-website-builder': { category: 'Your event online', text: 'Publish your brand, agenda, speakers, and registration on a connected event website.' },
+  'meetup-and-workshop-management-software': { category: 'Smaller gatherings', text: 'Handle registration, arrival, and follow-up for your next meetup or workshop.' },
+};
 ---
 
 <BaseLayout
@@ -21,14 +32,29 @@ import { SIGNUP_URL } from '../../config';
 
   <section class="py-20 sm:py-24">
     <div class="mx-auto max-w-7xl px-5 sm:px-8">
-      <ul class="rule-list border-y border-rule">
+      <p class="eyebrow">Find your starting point</p>
+      <a href="/solutions/conference-management-software" class="solution-feature mt-6" aria-labelledby="conference-title">
+        <div class="p-7 sm:p-10 lg:p-12">
+          <p class="font-mono text-xs font-medium text-brass-text">THE WHOLE PROGRAM</p>
+          <h2 id="conference-title" class="mt-4 text-3xl font-semibold leading-tight sm:text-4xl">Conference management</h2>
+          <p class="mt-5 max-w-md text-lg leading-8 text-ink-soft">Bring your agenda, speakers, registration, and event day together.</p>
+          <span class="mt-8 inline-flex items-center gap-3 font-semibold">Explore conferences <span class="solution-arrow" aria-hidden="true">↗</span></span>
+        </div>
+        <div class="solution-feature-image" aria-hidden="true">
+          <Image src={scheduleShot} alt="" widths={[800, 1200, 1666]} sizes="(min-width: 1024px) 650px, 100vw" format="webp" loading="lazy" />
+        </div>
+      </a>
+
+      <ul class="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {
-          solutions.map((solution, i) => (
-            <li class="grid gap-2 py-7 md:grid-cols-12 md:gap-8" data-reveal style={`--i:${i}`}>
-              <h2 class="text-xl font-semibold md:col-span-5">
-                <a href={`/solutions/${solution.slug}`} class="link">{solution.label}</a>
-              </h2>
-              <p class="leading-7 text-ink-soft md:col-span-7">{solution.lede}</p>
+          solutions.filter((solution) => solution.slug !== 'conference-management-software').map((solution) => (
+            <li>
+              <a href={`/solutions/${solution.slug}`} class="solution-block" aria-labelledby={`${solution.slug}-title`}>
+                <p class="font-mono text-xs font-medium uppercase tracking-wide text-brass-text">{summaries[solution.slug].category}</p>
+                <h2 id={`${solution.slug}-title`} class="mt-4 text-2xl font-semibold leading-snug">{solution.label}</h2>
+                <p class="mb-8 mt-4 leading-7 text-ink-soft">{summaries[solution.slug].text}</p>
+                <span class="solution-arrow mt-auto self-end text-xl" aria-hidden="true">↗</span>
+              </a>
             </li>
           ))
         }
@@ -38,3 +64,50 @@ import { SIGNUP_URL } from '../../config';
 
   <CtaBand title="Start with the one thing you need." subtitle="Every plan includes the core tools. Start free and grow from there." />
 </BaseLayout>
+
+<style>
+  .solution-feature,
+  .solution-block {
+    border: 1px solid var(--color-rule);
+    border-radius: 16px;
+    background: var(--color-paper);
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+  }
+  .solution-feature {
+    display: grid;
+    overflow: hidden;
+    align-items: center;
+  }
+  .solution-feature-image {
+    overflow: hidden;
+    padding: 1.5rem 0 0 1.5rem;
+    background: var(--color-paper-deep);
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+  }
+  .solution-feature-image img {
+    width: 100%;
+    border: 1px solid var(--color-rule);
+    border-radius: 10px 0 0 0;
+    box-shadow: 0 12px 35px rgb(17 27 58 / 0.12);
+  }
+  .solution-block {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.75rem;
+  }
+  .solution-feature:hover,
+  .solution-block:hover {
+    border-color: var(--color-brass);
+    box-shadow: 0 8px 24px rgb(17 27 58 / 0.07);
+  }
+  .solution-arrow { color: var(--color-brass-text); }
+  @media (min-width: 1024px) {
+    .solution-feature { grid-template-columns: 0.9fr 1.1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .solution-feature, .solution-block { transition: none; }
+  }
+</style>

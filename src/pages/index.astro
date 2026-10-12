@@ -3,82 +3,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import FaqAccordion from '../components/FaqAccordion.astro';
 import CtaBand from '../components/CtaBand.astro';
-import Flame from '../components/Flame.astro';
 import BrandLogo from '../components/BrandLogo.astro';
-import Embers from '../components/Embers.astro';
 import Words from '../components/Words.astro';
+import { Image } from 'astro:assets';
+import dashboardShot from '../assets/product/dashboard.png';
+import scheduleShot from '../assets/product/schedule.png';
+import sponsorsShot from '../assets/product/sponsors.png';
+import eventWebsiteShot from '../assets/product/event-website.png';
 import type { LogoName } from '../lib/logos';
 import { SIGNUP_URL } from '../config';
 import { plans, matrix } from '../data/pricing';
-
-const pillars = [
-  {
-    title: 'One connected operation',
-    body: 'Registration, sessions, speakers, attendees, sponsors, exhibitors, communications, and reporting share one event context.',
-  },
-  {
-    title: 'Enterprise capability, without the maze',
-    body: 'Run complex events without weeks of implementation or a cluttered interface.',
-  },
-  {
-    title: 'Pricing that respects the work',
-    body: 'Start free, move up when your event requires it, and never pay an EventLantern markup on ticket processing.',
-  },
-  {
-    title: 'Ready when you are',
-    body: 'Create an event in minutes. No mandatory sales call or onboarding cycle.',
-  },
-];
-
-const featureGroups = [
-  {
-    category: 'Core event tools',
-    blurb: 'The daily work of running an event.',
-    features: [
-      { title: 'Event management', description: 'Create and manage conferences, workshops, and meetups with ease.' },
-      { title: 'Session scheduling', description: 'Multi-track agenda builder with rooms and time slots.' },
-      { title: 'Speaker management', description: 'Speaker profiles with bios, photos, and social links.' },
-      { title: 'Registration and ticketing', description: 'Custom forms, paid and free tickets, promo codes, and Stripe.' },
-      { title: 'Attendee management', description: 'View, filter, and export attendees with payment tracking.' },
-      { title: 'Check-in', description: 'QR code check-in with a dedicated portal.' },
-    ],
-  },
-  {
-    category: 'Sponsors, exhibitors and teams',
-    blurb: 'Everyone with a stake in the room.',
-    features: [
-      { title: 'Sponsor management', description: 'CRM pipeline with tiers, deliverables, and a sponsor portal.' },
-      { title: 'Sponsor ROI', description: 'Impression metrics, lead attribution, and ROI dashboards.' },
-      { title: 'Exhibitor management', description: 'Booth staff management with a tier system and exhibitor portal.' },
-      { title: 'Lead capture', description: 'Exhibitors scan and capture attendee leads, with exportable reports.' },
-      { title: 'Team collaboration', description: 'Team management with roles and invitations.' },
-    ],
-  },
-  {
-    category: 'Attendee experience',
-    blurb: 'What people feel in the room, and what you learn from it.',
-    features: [
-      { title: 'Attendee portal', description: 'Self-service portal for sessions and registration.' },
-      { title: 'Engagement scoring', description: 'Score attendance, interactions, and activity to find your most engaged participants.' },
-      { title: 'Surveys and feedback', description: 'Custom surveys linked to sessions or events.' },
-      { title: 'Badge printing', description: 'Professional badges with QR codes and your branding.' },
-      { title: 'Virtual events', description: 'Fully online events with streaming, virtual networking, and remote attendance.' },
-      { title: 'Hybrid events', description: 'Blend in-person and virtual experiences in one event.' },
-    ],
-  },
-  {
-    category: 'Your brand, your data',
-    blurb: 'Make it yours, then see how it went.',
-    features: [
-      { title: 'Event website builder', description: 'One-click public websites with customizable templates.' },
-      { title: 'Branding', description: 'Custom logo, brand colors, and font settings.' },
-      { title: 'Reports and analytics', description: 'Dashboards with registration trends and revenue tracking.' },
-      { title: 'Session trends', description: 'Session popularity, attendance patterns, and drop-off rates.' },
-      { title: 'Email campaigns', description: 'Targeted campaigns with templates, scheduling, and open-rate tracking.' },
-      { title: 'Integrations', description: 'Zoom, Microsoft Teams, HubSpot, Salesforce, Slack, Zapier, and more.' },
-    ],
-  },
-];
 
 const tools: { name: string; logo: LogoName }[] = [
   { name: 'Zoom', logo: 'zoom' },
@@ -160,102 +94,148 @@ const appSchema = {
   <!-- Hero -->
   <section>
     <div class="hero-stage on-dark">
-      <div class="mx-auto grid max-w-7xl items-center gap-10 px-5 pb-20 pt-14 sm:px-8 sm:pb-28 sm:pt-24 lg:min-h-[calc(100dvh-8.5rem)] lg:grid-cols-12 lg:py-16">
-        <div class="lg:col-span-8">
-          <p class="eyebrow hero-enter">For conferences, workshops and meetups</p>
-          <h1 class="display mt-5">
-            <Words text="See the whole event." /><br />
-            <span class="text-brass-glow"><Words text="Run it as one." start={4} /></span>
-          </h1>
-          <p class="lead hero-enter hero-enter-3 mt-8 max-w-xl">
-            One clear platform for registration, programming, speakers, sponsors, attendees, check-in, and reporting.
-          </p>
-          <div class="hero-enter hero-enter-3 mt-10 flex flex-wrap gap-3">
-            <a href={SIGNUP_URL} class="btn btn-primary">Start free</a>
-            <a href="#features" class="btn btn-ghost">Explore the platform</a>
+      <div class="mx-auto max-w-7xl px-5 pb-14 pt-16 sm:px-8 sm:pb-20 sm:pt-24">
+        <div class="grid items-end gap-10 lg:grid-cols-[1.3fr_0.7fr] lg:gap-20">
+          <div>
+            <p class="eyebrow hero-enter">Event management, brought into focus</p>
+            <h1 class="display mt-5">
+              <Words text="See the whole event." /><br />
+              <span class="text-brass-glow"><Words text="Run it as one." start={4} /></span>
+            </h1>
           </div>
-          <p class="hero-enter hero-enter-3 mt-5 font-mono text-sm text-ivory/65">No credit card. No sales call.</p>
+          <div class="hero-enter hero-enter-3 lg:pb-1">
+            <p class="lead max-w-lg">
+              Plan the program, welcome attendees, work with partners, and see what happened. One place to run the whole event.
+            </p>
+            <div class="mt-7 flex flex-wrap items-center gap-5">
+              <a href={SIGNUP_URL} class="btn btn-primary">Start free</a>
+              <a href="#features" class="link !text-ivory">See it in action <span aria-hidden="true">↗</span></a>
+            </div>
+            <p class="mt-4 font-mono text-xs text-ivory/65">No credit card · No sales call</p>
+          </div>
         </div>
 
-        <div class="relative hidden lg:col-span-4 lg:block" aria-hidden="true">
-          <div class="flame-glow absolute left-1/2 top-[18%] h-[30rem] w-[30rem] -translate-x-1/2 -translate-y-1/4"></div>
-          <div class="relative mx-auto w-fit">
-            <Flame class="h-[26rem] w-auto text-ivory" />
-            <Embers left="55%" top="20%" />
+        <figure class="hero-product mt-14 sm:mt-20" data-reveal>
+          <div class="hero-product-viewport">
+            <Image
+              src={dashboardShot}
+              alt="Meridian Design Summit dashboard showing registrations, sponsors, exhibitors, and event activity"
+              widths={[960, 1440, 2230]}
+              sizes="(min-width: 1280px) 1216px, 100vw"
+              format="webp"
+              class="hero-product-image"
+              loading="eager"
+            />
           </div>
-        </div>
+          <figcaption class="flex flex-wrap justify-between gap-2 px-1 pt-4 font-mono text-xs text-ivory/65">
+            <span>Inside EventLantern / Event overview</span>
+            <span>Meridian Design Summit · demo event</span>
+          </figcaption>
+        </figure>
       </div>
       <div class="hero-rule" aria-hidden="true"></div>
     </div>
 
     <!-- Rebrand notice -->
     <div class="border-y border-rule bg-paper">
-      <div class="mx-auto flex max-w-7xl flex-col gap-1 px-5 py-4 sm:flex-row sm:items-center sm:gap-6 sm:px-8">
-        <p class="font-mono text-sm font-medium text-brass-text">EventBound is now EventLantern.</p>
-        <p class="text-sm text-ink-soft">
-          The name changed. The product, your account, and your data did not. Same product, clearer identity.
-        </p>
+      <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-x-5 gap-y-1 px-5 py-3.5 text-sm sm:px-8">
+        <p class="font-mono font-medium text-brass-text">Formerly EventBound</p>
+        <p class="text-ink-soft">Same product, accounts, and event data.</p>
+        <a href="/eventbound" class="font-semibold text-ink underline decoration-brass underline-offset-4">What changed <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>
 
   <!-- Point of view -->
-  <section class="py-24 sm:py-32">
-    <div class="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-12">
-      <div class="lg:col-span-7" data-reveal>
+  <section class="py-20 sm:py-28">
+    <div class="mx-auto grid max-w-7xl items-end gap-8 px-5 sm:px-8 lg:grid-cols-[1fr_auto] lg:gap-20" data-reveal>
+      <div class="max-w-3xl">
         <p class="eyebrow">Why EventLantern</p>
-        <blockquote class="h-section mt-4">
-          Enterprise event software has become harder than the events it is meant to support.
-        </blockquote>
-        <p class="lead mt-8 max-w-xl">
-          You should not need a scavenger hunt to find a routine task. Powerful software can still be clear, fast, and fairly priced.
-        </p>
-        <a href="/why" class="link mt-8 inline-block">What we do differently</a>
+        <h2 class="h-section mt-3">The details belong together.</h2>
+        <p class="lead mt-5 max-w-2xl">A registration changes the attendee list. A session shapes the schedule. A sponsor needs more than a logo. See the connections without hunting through separate tools.</p>
       </div>
-
-      <ul class="rule-list lg:col-span-5">
-        {
-          pillars.map((pillar, i) => (
-            <li class="py-6 first:pt-0" data-reveal style={`--i:${i}`}>
-              <h3 class="text-xl font-semibold">{pillar.title}</h3>
-              <p class="mt-2 leading-7 text-ink-soft">{pillar.body}</p>
-            </li>
-          ))
-        }
-      </ul>
+      <a href="/why" class="link mb-2 shrink-0">Why we built it this way <span aria-hidden="true">↗</span></a>
     </div>
   </section>
 
   <!-- Features -->
-  <section id="features" class="scroll-mt-16 border-t border-rule bg-paper py-24 sm:py-32">
+  <section id="features" class="scroll-mt-16 border-t border-rule bg-paper py-20 sm:py-28">
     <div class="mx-auto max-w-7xl px-5 sm:px-8">
       <SectionHeader
-        eyebrow="Features"
-        title="Everything connected. Nothing buried."
-        subtitle="Every part of the event lives in one place, so you can see how it fits together."
+        eyebrow="Inside the platform"
+        title="From the first session to the last follow-up."
+        subtitle="Real views from a sample event. Each part of the work stays connected."
       />
 
-      <div class="mt-16 space-y-20">
-        {
-          featureGroups.map((group, gi) => (
-            <div class="grid gap-8 lg:grid-cols-12">
-              <div class="lg:col-span-4" data-reveal>
-                <div class="lg:sticky lg:top-28">
-                  <h3 class="text-2xl font-semibold">{group.category}</h3>
-                  <p class="mt-2 text-ink-soft">{group.blurb}</p>
-                </div>
-              </div>
-              <ul class="rule-list border-y border-rule lg:col-span-8">
-                {group.features.map((feature, fi) => (
-                  <li class="grid gap-1 py-5 sm:grid-cols-5 sm:gap-6" data-reveal style={`--i:${fi}`}>
-                    <h4 class="font-semibold sm:col-span-2">{feature.title}</h4>
-                    <p class="leading-7 text-ink-soft sm:col-span-3">{feature.description}</p>
-                  </li>
-                ))}
-              </ul>
+      <div class="mt-14 space-y-20 sm:mt-20 sm:space-y-28">
+        <article class="product-story" data-reveal>
+          <div class="product-story-copy">
+            <span class="story-index">01 / Program</span>
+            <h3 class="mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">Build a schedule people can follow.</h3>
+            <p class="mt-5 text-lg leading-8 text-ink-soft">Map sessions across tracks, rooms, and time slots. Speakers and attendees see the same event taking shape.</p>
+            <ul class="story-points mt-7">
+              <li>Multi-track agenda</li>
+              <li>Speaker profiles</li>
+              <li>Session registration</li>
+            </ul>
+            <a href="/solutions/conference-management-software" class="link mt-8 inline-block">Explore conference management <span aria-hidden="true">↗</span></a>
+          </div>
+          <figure class="product-story-frame">
+            <div class="product-story-screen">
+              <Image src={scheduleShot} alt="Multi-track schedule for the Meridian Design Summit with sessions arranged by time and track" widths={[800, 1200, 1666]} sizes="(min-width: 1024px) 760px, 100vw" format="webp" class="block h-auto w-full" loading="lazy" />
             </div>
-          ))
-        }
+            <figcaption class="story-caption">Schedule / Meridian Design Summit</figcaption>
+          </figure>
+        </article>
+
+        <article class="product-story product-story-reverse" data-reveal>
+          <div class="product-story-copy">
+            <span class="story-index">02 / Partners</span>
+            <h3 class="mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">Give sponsors a clear path from prospect to partner.</h3>
+            <p class="mt-5 text-lg leading-8 text-ink-soft">Track conversations, tiers, and deliverables in the same event your team is running. Keep the handoffs visible.</p>
+            <ul class="story-points mt-7">
+              <li>Sponsor pipeline</li>
+              <li>Exhibitor management</li>
+              <li>Lead capture</li>
+            </ul>
+            <a href="/solutions/sponsor-and-exhibitor-management-software" class="link mt-8 inline-block">Explore partner tools <span aria-hidden="true">↗</span></a>
+          </div>
+          <figure class="product-story-frame">
+            <div class="product-story-screen">
+              <Image src={sponsorsShot} alt="Sponsor management view showing outreach stages and sponsor tiers for a sample event" widths={[800, 1260]} sizes="(min-width: 1024px) 760px, 100vw" format="webp" class="block h-auto w-full" loading="lazy" />
+            </div>
+            <figcaption class="story-caption">Sponsor CRM / Meridian Design Summit</figcaption>
+          </figure>
+        </article>
+
+        <article class="product-story" data-reveal>
+          <div class="product-story-copy">
+            <span class="story-index">03 / Experience</span>
+            <h3 class="mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">Make the event feel like yours.</h3>
+            <p class="mt-5 text-lg leading-8 text-ink-soft">Publish an event website with your identity, schedule, speakers, sponsors, and registration in one place.</p>
+            <ul class="story-points mt-7">
+              <li>Branded event website</li>
+              <li>Registration and ticketing</li>
+              <li>Attendee portal</li>
+            </ul>
+            <a href="/solutions/event-website-builder" class="link mt-8 inline-block">Explore event websites <span aria-hidden="true">↗</span></a>
+          </div>
+          <figure class="product-story-frame product-story-frame-portrait">
+            <Image src={eventWebsiteShot} alt="Sample Meridian Design Summit event website with event information, registration, and speaker section" widths={[720, 1120]} sizes="(min-width: 1024px) 640px, 100vw" format="webp" class="block h-auto w-full" loading="lazy" />
+            <figcaption class="story-caption">Public event website / Meridian Design Summit</figcaption>
+          </figure>
+        </article>
+      </div>
+
+      <div class="mt-20 border-t border-rule pt-8 sm:mt-28" data-reveal>
+        <p class="eyebrow">The rest of the operation</p>
+        <div class="mt-6 grid gap-x-10 gap-y-5 text-base font-medium sm:grid-cols-2 lg:grid-cols-4">
+          <p>QR check-in and badges</p>
+          <p>Attendee communications</p>
+          <p>Virtual and hybrid events</p>
+          <p>Reports and analytics</p>
+        </div>
+        <a href="/solutions" class="link mt-8 inline-block">See all solutions <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>
