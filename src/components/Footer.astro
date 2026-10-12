@@ -1,5 +1,5 @@
 ---
-import { SIGNUP_URL, TERMS_URL, PRIVACY_URL, SOCIAL } from '../config';
+import { SIGNUP_URL, TERMS_URL, PRIVACY_URL, SOCIAL, CONTACT_EMAIL } from '../config';
 
 const columns = [
   {
@@ -42,6 +42,12 @@ const year = new Date().getFullYear();
         <p class="mt-5 max-w-xs text-sm leading-6">
           One clear view of the whole event. Registration, programming, speakers, sponsors, check-in and reporting, together.
         </p>
+        <a
+          href={`mailto:${CONTACT_EMAIL}`}
+          class="mt-5 inline-block text-sm font-semibold text-ivory underline decoration-brass underline-offset-4"
+        >
+          {CONTACT_EMAIL}
+        </a>
         {
           SOCIAL.linkedin && (
             <a
