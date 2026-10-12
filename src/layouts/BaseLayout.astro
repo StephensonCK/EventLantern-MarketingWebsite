@@ -132,6 +132,14 @@ const orgSchema = { '@context': 'https://schema.org', '@graph': graph };
     </main>
     <Footer />
 
+    <!-- Cloudflare Web Analytics: cookieless, no fingerprinting. -->
+    <script
+      is:inline
+      type="module"
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "51a7db40931547fe85315daaf70df092"}'></script>
+    <!-- End Cloudflare Web Analytics -->
+
     <script>
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const items = document.querySelectorAll<HTMLElement>('[data-reveal]');
