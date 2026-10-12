@@ -1,0 +1,40 @@
+# EventLantern
+
+> EventLantern is an event management platform for conferences, workshops, and meetups. It covers registration and ticketing, multi-track session scheduling, speaker management, QR code check-in, badge printing, sponsor and exhibitor portals, lead capture, email campaigns, and analytics in one connected system. It has a free plan, published pricing, and no EventLantern markup on ticket processing. EventLantern was formerly named EventBound; the product, accounts, and data are unchanged.
+
+Key facts:
+- Plans (month to month): Free ($0, one active event, up to 50 attendees), Starter ($49/mo, three events, up to 500 attendees each), Professional ($249/mo, unlimited events, up to 5,000 attendees each).
+- Paid registration runs through Stripe Connect. Standard Stripe fees (2.9% + $0.30 per card transaction) go to Stripe; EventLantern adds no markup.
+- Virtual, hybrid, and in-person events are supported on every plan. Zoom and Microsoft Teams integrations are on every plan; HubSpot, Salesforce, Twilio, Slack, Mailchimp, SendGrid, and Zapier are on Professional.
+- No credit card or sales call is required to start.
+
+## Product
+
+- [Home](https://eventlantern.com/): Overview of the platform, features, integrations, pricing summary, and FAQ.
+- [Pricing](https://eventlantern.com/pricing): Plan prices, limits, and a feature-by-feature comparison of Free, Starter, and Professional.
+- [Integrations](https://eventlantern.com/integrations): Zoom, Microsoft Teams, HubSpot, Salesforce, Twilio, Slack, Mailchimp, SendGrid, and Zapier, with what each does and which plan includes it.
+- [Security](https://eventlantern.com/security): Row-level data isolation, zero-trust architecture, secure portals, audit trails, and PCI-compliant payments through Stripe.
+
+## Solutions
+
+- [All solutions](https://eventlantern.com/solutions): Index of EventLantern by use case.
+- [Conference management software](https://eventlantern.com/solutions/conference-management-software): Multi-track scheduling, speakers, registration, check-in, and analytics.
+- [Event registration and ticketing](https://eventlantern.com/solutions/event-registration-software): Custom forms, free and paid tickets, promo codes, and Stripe payments.
+- [Virtual and hybrid events](https://eventlantern.com/solutions/virtual-and-hybrid-event-software): Online and blended events with Zoom and Microsoft Teams.
+- [Sponsor and exhibitor management](https://eventlantern.com/solutions/sponsor-and-exhibitor-management-software): Sponsor pipeline, portals, lead capture, and ROI dashboards.
+- [Check-in and badge printing](https://eventlantern.com/solutions/event-check-in-and-badge-printing): QR code check-in and branded badges.
+- [Event website builder](https://eventlantern.com/solutions/event-website-builder): One-click branded public event websites with registration.
+- [Meetup and workshop software](https://eventlantern.com/solutions/meetup-and-workshop-management-software): Free-plan tools for small events.
+
+## Company
+
+- [Why EventLantern](https://eventlantern.com/why): How EventLantern differs from enterprise event software: published pricing, setup in minutes, one dashboard.
+- [About](https://eventlantern.com/about): Mission, values, and the story behind the name.
+- [EventBound is now EventLantern](https://eventlantern.com/eventbound): Explanation of the rename and what stayed the same.
+- [Contact](https://eventlantern.com/contact): Questions, demos, and support. Email contact@eventlantern.com.
+
+## Optional
+
+- [Sign up free](https://app.eventlantern.com/signup): Create an account and first event.
+- [Terms](https://app.eventlantern.com/terms)
+- [Privacy policy](https://app.eventlantern.com/privacy)
