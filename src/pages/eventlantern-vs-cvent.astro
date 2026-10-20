@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import CtaBand from '../components/CtaBand.astro';
+import LeadForm from '../components/LeadForm.astro';
+import ComparisonTable from '../components/ComparisonTable.astro';
+import { SIGNUP_URL, SITE_URL } from '../config';
+import { rows, sources, whereCventFits, faqs, AS_OF, TRADEMARK_NOTE } from '../data/comparison-cvent';
+
+const title = 'EventLantern vs Cvent: Pricing, Features & Fit Compared';
+const description =
+  'EventLantern vs Cvent side by side: public pricing vs quote-only, month-to-month vs multi-year terms, and where each platform fits. Dated and sourced.';
+const pageFaqs = [faqs[2], faqs[3], faqs[4], faqs[5], faqs[1]];
+
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: title,
+  description,
+  url: `${SITE_URL}/eventlantern-vs-cvent`,
+  dateModified: '2026-10-20',
+  isPartOf: { '@id': `${SITE_URL}/#website` },
+  about: { '@type': 'SoftwareApplication', name: 'EventLantern', applicationCategory: 'BusinessApplication' },
+};
+
+const chooseEventLantern = [
+  'You want to see the price before talking to sales.',
+  'You prefer month-to-month terms to a multi-year contract.',
+  'You run conferences, workshops, or meetups up to 5,000 attendees per event.',
+  'You want registration, schedule, speakers, sponsors, and check-in in one dashboard.',
+  'You want to start the same day, free.',
+];
+---
+
+<BaseLayout title={title} description={description} breadcrumbs={[{ name: 'EventLantern vs Cvent', href: '/eventlantern-vs-cvent' }]}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+
+  <PageHero
+    eyebrow="EventLantern vs Cvent"
+    title="EventLantern vs Cvent, side by side."
+    lede="Both run corporate conferences from registration through reporting. They differ in how they are priced, how you sign up, and the scale each is built for."
+  >
+    <a href={SIGNUP_URL} class="btn btn-primary">Start free</a>
+    <a href="/cvent-alternative" class="btn btn-ghost">Why teams switch</a>
+  </PageHero>
+
+  <section class="py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <p class="lead max-w-3xl" data-reveal>
+        EventLantern publishes its prices ($0, $49, or $249 per month, month to month) and you can start without a sales call. Cvent is an
+        established enterprise platform that quotes pricing individually and is built for very large programs. Cvent details below are from
+        public sources as of {AS_OF}.
+      </p>
+      <ComparisonTable rows={rows} sources={sources} asOf={AS_OF} />
+    </div>
+  </section>
+
+  <section class="border-y border-rule bg-paper py-20 sm:py-24">
+    <div class="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-2">
+      <div data-reveal>
+        <p class="eyebrow">Choose EventLantern if</p>
+        <ul class="rule-list mt-6 border-y border-rule">
+          {chooseEventLantern.map((item) => <li class="py-4 leading-7">{item}</li>)}
+        </ul>
+        <a href={SIGNUP_URL} class="btn btn-primary mt-8 inline-block">Start free</a>
+      </div>
+      <div data-reveal>
+        <p class="eyebrow">Choose Cvent if</p>
+        <ul class="rule-list mt-6 border-y border-rule">
+          {
+            whereCventFits.map((item) => (
+              <li class="py-4 leading-7">
+                <span class="font-semibold">{item.title}.</span> <span class="text-ink-soft">{item.body}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <SectionHeader eyebrow="Questions" title="EventLantern vs Cvent, answered." />
+      <FaqAccordion items={pageFaqs} />
+      <p class="mt-8" data-reveal>
+        Thinking about moving? <a href="/cvent-alternative" class="link">Read how teams switch</a> or
+        <a href="/pricing" class="link">see every EventLantern plan</a>.
+      </p>
+    </div>
+  </section>
+
+  <div id="migration-help">
+    <LeadForm source="/eventlantern-vs-cvent" id="lead-form" />
+  </div>
+
+  <CtaBand title="See your whole event in one place." subtitle="Create your first event without a sales call or a credit card." />
+
+  <section class="border-t border-rule py-8">
+    <p class="mx-auto max-w-7xl px-5 text-xs leading-5 text-ink-soft sm:px-8">{TRADEMARK_NOTE}</p>
+  </section>
+</BaseLayout>

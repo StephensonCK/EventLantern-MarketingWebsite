@@ -1,0 +1,135 @@
+---
+import { FORMSPREE_ID } from '../config';
+
+interface Props {
+  /** Recorded with each submission so leads can be traced to the page that produced them. */
+  source: string;
+  /** Unique per page instance. */
+  id?: string;
+  heading?: string;
+  intro?: string;
+}
+const {
+  source,
+  id = 'lead-form',
+  heading = 'Switching from Cvent? Get migration help.',
+  intro = 'Tell us about your event and what you use today. We will reply on business days with a plan for moving over.',
+} = Astro.props;
+
+const endpoint = FORMSPREE_ID ? `https://formspree.io/f/${FORMSPREE_ID}` : '';
+const field =
+  'w-full rounded-[10px] border border-ink/30 bg-paper px-4 py-3 text-base text-ink placeholder:text-ink/40 transition-colors duration-200 focus:border-ink focus:outline-none focus:ring-2 focus:ring-brass/50';
+---
+
+<section class="border-t border-rule bg-paper py-20 sm:py-24" id={`${id}-section`}>
+  <div class="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-12">
+    <div class="lg:col-span-5" data-reveal>
+      <h2 class="h-section">{heading}</h2>
+      <p class="lead mt-5 max-w-md">{intro}</p>
+    </div>
+
+    <div class="lg:col-span-6 lg:col-start-7" data-reveal>
+      <form id={id} method="POST" action={endpoint} data-endpoint={endpoint} class="space-y-6" novalidate>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+        <input type="hidden" name="source" value={source} />
+        <input type="hidden" name="_subject" value={`Lead from ${source}`} />
+
+        <div class="flex flex-col gap-2">
+          <label for={`${id}-name`} class="text-sm font-semibold">Name</label>
+          <input type="text" id={`${id}-name`} name="name" required autocomplete="name" class={field} />
+          <p class="field-error" role="alert">Please tell us your name.</p>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for={`${id}-email`} class="text-sm font-semibold">Work email</label>
+          <input type="email" id={`${id}-email`} name="email" required autocomplete="email" class={field} />
+          <p class="field-error" role="alert">Please enter a valid email address.</p>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for={`${id}-size`} class="text-sm font-semibold">Typical event size <span class="font-normal text-ink-soft">(optional)</span></label>
+          <select id={`${id}-size`} name="event_size" class={field}>
+            <option value="">Select one</option>
+            <option>Under 100 attendees</option>
+            <option>100 to 500</option>
+            <option>500 to 2,000</option>
+            <option>2,000 to 5,000</option>
+            <option>More than 5,000</option>
+          </select>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for={`${id}-message`} class="text-sm font-semibold">What are you running today? <span class="font-normal text-ink-soft">(optional)</span></label>
+          <textarea id={`${id}-message`} name="message" rows="4" class={field}></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-full sm:w-auto" data-submit>Get migration help</button>
+      </form>
+
+      <p data-success role="status" class="mt-6 hidden rounded-[10px] border border-brass bg-paper px-4 py-3 text-sm font-semibold">
+        Thanks. We will be in touch on the next business day.
+      </p>
+      <p data-failure role="alert" class="mt-6 hidden rounded-[10px] border border-[#9b2c1f] bg-paper px-4 py-3 text-sm font-semibold text-[#9b2c1f]">
+        Something went wrong sending that. Please try again, or email us directly.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('form[data-endpoint]').forEach((form) => {
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]');
+    const wrap = form.parentElement;
+    const success = wrap?.querySelector('[data-success]');
+    const failure = wrap?.querySelector('[data-failure]');
+    const required = Array.from(form.querySelectorAll<HTMLInputElement>('input[required]'));
+    if (!submit) return;
+
+    const check = (el: HTMLInputElement) =>
+      el.setAttribute('aria-invalid', String(!el.checkValidity() || el.value.trim() === ''));
+
+    required.forEach((el) => {
+      el.addEventListener('blur', () => check(el));
+      el.addEventListener('input', () => {
+        if (el.getAttribute('aria-invalid') === 'true') check(el);
+      });
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      success?.classList.add('hidden');
+      failure?.classList.add('hidden');
+
+      required.forEach(check);
+      const firstBad = required.find((el) => el.getAttribute('aria-invalid') === 'true');
+      if (firstBad) {
+        firstBad.focus();
+        return;
+      }
+
+      const label = submit.textContent;
+      submit.disabled = true;
+      submit.textContent = 'Sending…';
+      try {
+        const endpoint = form.dataset.endpoint;
+        if (!endpoint) throw new Error('Form endpoint is not configured (FORMSPREE_ID)');
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (!response.ok) throw new Error(`Form service responded ${response.status}`);
+        form.reset();
+        required.forEach((el) => el.removeAttribute('aria-invalid'));
+        success?.classList.remove('hidden');
+        success?.scrollIntoView({ block: 'center' });
+      } catch (error) {
+        console.error(error);
+        failure?.classList.remove('hidden');
+      } finally {
+        submit.disabled = false;
+        submit.textContent = label;
+      }
+    });
+  });
+</script>

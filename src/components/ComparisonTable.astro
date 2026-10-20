@@ -1,0 +1,55 @@
+---
+import type { Row, Source } from '../data/comparison-cvent';
+
+interface Props {
+  rows: Row[];
+  sources: Source[];
+  asOf: string;
+}
+const { rows, sources, asOf } = Astro.props;
+const sourceById = new Map(sources.map((s) => [s.id, s]));
+---
+
+<div class="mt-12" data-reveal>
+  <p class="font-mono text-sm text-ink-soft">Cvent information as of {asOf}, from public sources.</p>
+
+  <!-- Stacked on small screens, three columns from md up. -->
+  <div class="mt-6 border-t-2 border-ink" role="table" aria-label="EventLantern compared with Cvent">
+    <div class="hidden border-b border-rule py-3 text-sm font-semibold md:grid md:grid-cols-12 md:gap-6" role="row">
+      <span class="md:col-span-3" role="columnheader">Topic</span>
+      <span class="md:col-span-4" role="columnheader">EventLantern</span>
+      <span class="md:col-span-5" role="columnheader">Cvent</span>
+    </div>
+    {
+      rows.map((row) => (
+        <div class="grid gap-2 border-b border-rule py-5 md:grid-cols-12 md:gap-6" role="row">
+          <h3 class="font-semibold md:col-span-3" role="rowheader">{row.topic}</h3>
+          <p class="leading-7 text-ink md:col-span-4" role="cell">
+            <span class="font-mono text-xs text-brass-text md:hidden">EventLantern</span>
+            <span class="block">{row.eventlantern}</span>
+          </p>
+          <p class="leading-7 text-ink-soft md:col-span-5" role="cell">
+            <span class="font-mono text-xs md:hidden">Cvent</span>
+            <span class="block">{row.cvent}</span>
+            {row.sourceIds.length > 0 && (
+              <span class="mt-1 block text-xs">
+                Source:{' '}
+                {row.sourceIds.map((id, i) => {
+                  const s = sourceById.get(id);
+                  return s ? (
+                    <>
+                      {i > 0 && ', '}
+                      <a href={s.href} class="link" rel="nofollow noopener" target="_blank">
+                        {s.label.split(':')[0]}
+                      </a>
+                    </>
+                  ) : null;
+                })}
+              </span>
+            )}
+          </p>
+        </div>
+      ))
+    }
+  </div>
+</div>
