@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import CtaBand from '../components/CtaBand.astro';
+import LeadForm from '../components/LeadForm.astro';
+import { SIGNUP_URL, SITE_URL } from '../config';
+import { plans } from '../data/pricing';
+import { whyLook, switching, whereBizzaboFits, faqs, sources, AS_OF, TRADEMARK_NOTE } from '../data/comparison-bizzabo';
+
+const title = 'Bizzabo Alternative: Event Software From $0 | EventLantern';
+const description =
+  'Looking for a Bizzabo alternative? EventLantern is event management software with public pricing from free to $249/mo, team members included, and month-to-month terms.';
+const pageFaqs = [faqs[0], faqs[1], faqs[2], faqs[4], faqs[6]];
+
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: title,
+  description,
+  url: `${SITE_URL}/bizzabo-alternative`,
+  dateModified: '2026-10-20',
+  isPartOf: { '@id': `${SITE_URL}/#website` },
+  about: { '@type': 'SoftwareApplication', name: 'EventLantern', applicationCategory: 'BusinessApplication' },
+};
+---
+
+<BaseLayout title={title} description={description} breadcrumbs={[{ name: 'Bizzabo alternative', href: '/bizzabo-alternative' }]}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+
+  <PageHero
+    eyebrow="Bizzabo alternative"
+    title="A Bizzabo alternative you can start today."
+    lede="EventLantern is event management software for conferences, with registration, scheduling, speakers, sponsors, check-in, and reporting in one dashboard. Pricing is public, team members are included, and you can start free."
+  >
+    <a href={SIGNUP_URL} class="btn btn-primary">Start free</a>
+    <a href="#migration-help" class="btn btn-ghost">Get migration help</a>
+  </PageHero>
+
+  <section class="py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <p class="lead max-w-3xl" data-reveal>
+        The short answer: choose EventLantern if you want conference software from $0 per month with month-to-month terms and no per-user
+        pricing. Choose Bizzabo if you need SSO, API access, a custom app, its badge hardware, or events beyond 5,000 attendees. Details below, dated
+        {AS_OF}.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-y border-rule bg-paper py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <SectionHeader eyebrow="Why teams look elsewhere" title="What usually sends people looking for a Bizzabo alternative." />
+      <div class="mt-14 grid gap-10 md:grid-cols-2">
+        {
+          whyLook.map((item, i) => (
+            <div data-reveal style={`--i:${i}`}>
+              <h3 class="text-xl font-semibold">{item.title}</h3>
+              <p class="mt-3 leading-7 text-ink-soft">{item.body}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p class="mt-10 max-w-3xl text-sm leading-6 text-ink-soft" data-reveal>
+        Sources:
+        {
+          sources.map((s, i) => (
+            <>
+              {i > 0 && ', '}
+              <a href={s.href} class="link" rel="nofollow noopener" target="_blank">{s.label.split(':')[0]}</a>
+            </>
+          ))
+        }. Review themes are commonly reported, not universal.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <SectionHeader eyebrow="What you get" title="Public plans, month to month." />
+      <div class="mt-14 grid gap-px border border-rule bg-rule md:grid-cols-3">
+        {
+          plans.map((plan, i) => (
+            <div class="bg-ivory p-8" data-reveal style={`--i:${i}`}>
+              <h3 class="text-lg font-semibold">{plan.name}</h3>
+              <p class="mt-3 text-4xl font-semibold tracking-tight">
+                {plan.price}<span class="text-base font-normal text-ink-soft">{plan.period}</span>
+              </p>
+              <p class="mt-3 text-ink-soft">{plan.description}</p>
+              <p class="mt-1 text-sm text-ink-soft">{plan.note}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p class="mt-6 max-w-3xl text-sm leading-6 text-ink-soft" data-reveal>
+        Stripe charges its own processing fees on paid tickets. EventLantern adds no markup.
+        <a href="/pricing" class="link">See every plan and limit</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-y border-rule bg-paper py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <SectionHeader eyebrow="Honest fit" title="Where Bizzabo may be the better choice." />
+      <ul class="rule-list mt-14 max-w-4xl border-y border-rule">
+        {
+          whereBizzaboFits.map((item, i) => (
+            <li class="grid gap-1 py-5 sm:grid-cols-5 sm:gap-6" data-reveal style={`--i:${i}`}>
+              <h3 class="font-semibold sm:col-span-2">{item.title}</h3>
+              <p class="leading-7 text-ink-soft sm:col-span-3">{item.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-8" data-reveal>
+        Want the full side-by-side? <a href="/eventlantern-vs-bizzabo" class="link">Read EventLantern vs Bizzabo</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <SectionHeader eyebrow="Switching" title="Move over at your own pace." />
+      <div class="mt-14 grid gap-10 md:grid-cols-3">
+        {
+          switching.map((item, i) => (
+            <div data-reveal style={`--i:${i}`}>
+              <h3 class="text-xl font-semibold">{item.title}</h3>
+              <p class="mt-3 leading-7 text-ink-soft">{item.body}</p>
+            </div>
+          ))
+        }
+      </div>
+      <div class="mt-10 flex flex-wrap gap-3" data-reveal>
+        <a href={SIGNUP_URL} class="btn btn-primary">Start free</a>
+        <a href="#migration-help" class="btn btn-ghost">Get migration help</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-rule py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <h2 class="h-section" data-reveal>Questions, answered.</h2>
+      <FaqAccordion items={pageFaqs} />
+      <p class="mt-8" data-reveal>
+        Also comparing Cvent? <a href="/cvent-alternative" class="link">See the Cvent alternative page</a>.
+      </p>
+    </div>
+  </section>
+
+  <div id="migration-help">
+    <LeadForm source="/bizzabo-alternative" id="lead-form" heading="Switching from Bizzabo? Get migration help." />
+  </div>
+
+  <CtaBand title="See your whole event in one place." subtitle="Create your first event without a sales call or a credit card." />
+
+  <section class="border-t border-rule py-8">
+    <p class="mx-auto max-w-7xl px-5 text-xs leading-5 text-ink-soft sm:px-8">{TRADEMARK_NOTE}</p>
+  </section>
+</BaseLayout>

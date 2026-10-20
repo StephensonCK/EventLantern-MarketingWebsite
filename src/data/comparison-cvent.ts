@@ -199,7 +199,7 @@ export const faqs = [
   {
     question: 'Can EventLantern handle enterprise conferences?',
     answer:
-      'EventLantern supports multi-track scheduling, speaker management, sponsor and exhibitor operations, lead capture, role-based collaboration, analytics, and integrations including Salesforce and HubSpot, with up to 5,000 attendees per event on Professional. For events beyond that scale, or programs that need a long-established vendor, Cvent may be the better fit.',
+      'EventLantern supports multi-track scheduling, speaker management, sponsor and exhibitor operations, lead capture, role-based collaboration, analytics, and integrations including Salesforce and HubSpot, with up to 5,000 attendees per event on Professional. EventLantern does not offer SSO, API access, or a custom app, and attendees use it as a mobile website. For events beyond that scale, programs that require SSO, API access, or a custom app, or programs that need a long-established vendor, Cvent may be the better fit.',
   },
   {
     question: 'Is EventLantern as established as Cvent?',

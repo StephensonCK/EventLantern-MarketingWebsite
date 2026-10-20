@@ -5,20 +5,21 @@ interface Props {
   rows: Row[];
   sources: Source[];
   asOf: string;
+  competitor?: string;
 }
-const { rows, sources, asOf } = Astro.props;
+const { rows, sources, asOf, competitor = 'Cvent' } = Astro.props;
 const sourceById = new Map(sources.map((s) => [s.id, s]));
 ---
 
 <div class="mt-12" data-reveal>
-  <p class="font-mono text-sm text-ink-soft">Cvent information as of {asOf}, from public sources.</p>
+  <p class="font-mono text-sm text-ink-soft">{competitor} information as of {asOf}, from public sources.</p>
 
   <!-- Stacked on small screens, three columns from md up. -->
-  <div class="mt-6 border-t-2 border-ink" role="table" aria-label="EventLantern compared with Cvent">
+  <div class="mt-6 border-t-2 border-ink" role="table" aria-label={`EventLantern compared with ${competitor}`}>
     <div class="hidden border-b border-rule py-3 text-sm font-semibold md:grid md:grid-cols-12 md:gap-6" role="row">
       <span class="md:col-span-3" role="columnheader">Topic</span>
       <span class="md:col-span-4" role="columnheader">EventLantern</span>
-      <span class="md:col-span-5" role="columnheader">Cvent</span>
+      <span class="md:col-span-5" role="columnheader">{competitor}</span>
     </div>
     {
       rows.map((row) => (
@@ -29,7 +30,7 @@ const sourceById = new Map(sources.map((s) => [s.id, s]));
             <span class="block">{row.eventlantern}</span>
           </p>
           <p class="leading-7 text-ink-soft md:col-span-5" role="cell">
-            <span class="font-mono text-xs md:hidden">Cvent</span>
+            <span class="font-mono text-xs md:hidden">{competitor}</span>
             <span class="block">{row.cvent}</span>
             {row.sourceIds.length > 0 && (
               <span class="mt-1 block text-xs">

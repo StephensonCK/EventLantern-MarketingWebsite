@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import CtaBand from '../components/CtaBand.astro';
+import LeadForm from '../components/LeadForm.astro';
+import ComparisonTable from '../components/ComparisonTable.astro';
+import { SIGNUP_URL, SITE_URL } from '../config';
+import { rows, sources, whereBizzaboFits, faqs, AS_OF, TRADEMARK_NOTE } from '../data/comparison-bizzabo';
+
+const title = 'EventLantern vs Bizzabo: Pricing, Features & Fit Compared';
+const description =
+  'EventLantern vs Bizzabo side by side: free to $249/mo vs from $17,999 a year, month to month vs annual billing, and where each platform fits. Dated and sourced.';
+const pageFaqs = [faqs[1], faqs[3], faqs[4], faqs[5], faqs[2]];
+
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: title,
+  description,
+  url: `${SITE_URL}/eventlantern-vs-bizzabo`,
+  dateModified: '2026-10-20',
+  isPartOf: { '@id': `${SITE_URL}/#website` },
+  about: { '@type': 'SoftwareApplication', name: 'EventLantern', applicationCategory: 'BusinessApplication' },
+};
+
+const chooseEventLantern = [
+  'You want conference software from $0 per month rather than a five-figure annual subscription.',
+  'You prefer month-to-month terms and no per-user pricing.',
+  'You run conferences, workshops, or meetups up to 5,000 attendees per event.',
+  'You want registration, schedule, speakers, sponsors, and check-in in one dashboard.',
+  'You want to start the same day, free.',
+];
+---
+
+<BaseLayout title={title} description={description} breadcrumbs={[{ name: 'EventLantern vs Bizzabo', href: '/eventlantern-vs-bizzabo' }]}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+
+  <PageHero
+    eyebrow="EventLantern vs Bizzabo"
+    title="EventLantern vs Bizzabo, side by side."
+    lede="Both run corporate conferences from registration through reporting. They differ in how they are priced, how you buy, and the extras each sells."
+  >
+    <a href={SIGNUP_URL} class="btn btn-primary">Start free</a>
+    <a href="/bizzabo-alternative" class="btn btn-ghost">Why teams switch</a>
+  </PageHero>
+
+  <section class="py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <p class="lead max-w-3xl" data-reveal>
+        EventLantern costs $0, $49, or $249 per month, month to month, with team members included. Bizzabo lists its platform from $17,999 per
+        year, billed annually, priced per user, with premium add-ons on top. Bizzabo details below are from its public pricing page and
+        reviews as of {AS_OF}.
+      </p>
+      <ComparisonTable rows={rows} sources={sources} asOf={AS_OF} competitor="Bizzabo" />
+    </div>
+  </section>
+
+  <section class="border-y border-rule bg-paper py-20 sm:py-24">
+    <div class="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-2">
+      <div data-reveal>
+        <p class="eyebrow">Choose EventLantern if</p>
+        <ul class="rule-list mt-6 border-y border-rule">
+          {chooseEventLantern.map((item) => <li class="py-4 leading-7">{item}</li>)}
+        </ul>
+        <a href={SIGNUP_URL} class="btn btn-primary mt-8 inline-block">Start free</a>
+      </div>
+      <div data-reveal>
+        <p class="eyebrow">Choose Bizzabo if</p>
+        <ul class="rule-list mt-6 border-y border-rule">
+          {
+            whereBizzaboFits.map((item) => (
+              <li class="py-4 leading-7">
+                <span class="font-semibold">{item.title}.</span> <span class="text-ink-soft">{item.body}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <SectionHeader eyebrow="Questions" title="EventLantern vs Bizzabo, answered." />
+      <FaqAccordion items={pageFaqs} />
+      <p class="mt-8" data-reveal>
+        Thinking about moving? <a href="/bizzabo-alternative" class="link">Read how teams switch</a> or
+        <a href="/pricing" class="link">see every EventLantern plan</a>. Also comparing Cvent?
+        <a href="/eventlantern-vs-cvent" class="link">EventLantern vs Cvent</a>.
+      </p>
+    </div>
+  </section>
+
+  <div id="migration-help">
+    <LeadForm source="/eventlantern-vs-bizzabo" id="lead-form" heading="Switching from Bizzabo? Get migration help." />
+  </div>
+
+  <CtaBand title="See your whole event in one place." subtitle="Create your first event without a sales call or a credit card." />
+
+  <section class="border-t border-rule py-8">
+    <p class="mx-auto max-w-7xl px-5 text-xs leading-5 text-ink-soft sm:px-8">{TRADEMARK_NOTE}</p>
+  </section>
+</BaseLayout>
