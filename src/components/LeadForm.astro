@@ -8,12 +8,14 @@ interface Props {
   id?: string;
   heading?: string;
   intro?: string;
+  buttonLabel?: string;
 }
 const {
   source,
   id = 'lead-form',
   heading = 'Switching from Cvent? Get migration help.',
   intro = 'Tell us about your event and what you use today. We will reply on business days with a plan for moving over.',
+  buttonLabel = 'Get migration help',
 } = Astro.props;
 
 const endpoint = FORMSPREE_ID ? `https://formspree.io/f/${FORMSPREE_ID}` : '';
@@ -63,7 +65,7 @@ const field =
           <textarea id={`${id}-message`} name="message" rows="4" class={field}></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary w-full sm:w-auto" data-submit>Get migration help</button>
+        <button type="submit" class="btn btn-primary w-full sm:w-auto" data-submit>{buttonLabel}</button>
       </form>
 
       <p data-success role="status" class="mt-6 hidden rounded-[10px] border border-brass bg-paper px-4 py-3 text-sm font-semibold">

@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import CtaBand from '../components/CtaBand.astro';
+import LeadForm from '../components/LeadForm.astro';
+import { SIGNUP_URL, SITE_URL } from '../config';
+import { plans } from '../data/pricing';
+import { competitors, notOffered, AS_OF, TRADEMARK_NOTE } from '../data/competitors';
+
+const title = 'Event Software Comparison: EventLantern vs Cvent and Bizzabo';
+const description =
+  'Compare EventLantern with Cvent and Bizzabo: public pricing from free to $249/mo, month-to-month terms, and an honest look at where each platform fits.';
+
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: title,
+  description,
+  url: `${SITE_URL}/compare`,
+  dateModified: '2026-10-20',
+  isPartOf: { '@id': `${SITE_URL}/#website` },
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: competitors.map((c, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: `EventLantern vs ${c.name}`,
+      url: `${SITE_URL}${c.versusHref}`,
+    })),
+  },
+};
+---
+
+<BaseLayout title={title} description={description} breadcrumbs={[{ name: 'Compare', href: '/compare' }]}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+
+  <PageHero
+    eyebrow="Compare platforms"
+    title="How EventLantern compares."
+    lede="Three ways to run a conference: EventLantern, Cvent, and Bizzabo. Here is how pricing and fit differ, including what EventLantern does not do."
+  >
+    <a href={SIGNUP_URL} class="btn btn-primary">Start free</a>
+    <a href="/pricing" class="btn btn-ghost">See pricing</a>
+  </PageHero>
+
+  <section class="py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <p class="lead max-w-3xl" data-reveal>
+        EventLantern publishes its prices, bills month to month, and starts free. The platforms below are established vendors built for larger
+        or more customized programs. Information about them is from public sources as of {AS_OF}.
+      </p>
+
+      <div class="mt-14 grid gap-px border border-rule bg-rule md:grid-cols-3">
+        {
+          plans.map((plan, i) => (
+            <div class="bg-ivory p-8" data-reveal style={`--i:${i}`}>
+              <p class="eyebrow">EventLantern</p>
+              <h3 class="mt-2 text-lg font-semibold">{plan.name}</h3>
+              <p class="mt-3 text-4xl font-semibold tracking-tight">
+                {plan.price}<span class="text-base font-normal text-ink-soft">{plan.period}</span>
+              </p>
+              <p class="mt-3 text-ink-soft">{plan.note}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-rule bg-paper py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <SectionHeader eyebrow="Side by side" title="Pick the comparison you need." />
+      <div class="mt-14 grid gap-10 md:grid-cols-2">
+        {
+          competitors.map((c, i) => (
+            <article class="border-t-2 border-ink pt-6" data-reveal style={`--i:${i}`}>
+              <h3 class="text-2xl font-semibold">EventLantern vs {c.name}</h3>
+              <dl class="mt-5 space-y-4 leading-7">
+                <div>
+                  <dt class="font-semibold">{c.name} pricing</dt>
+                  <dd class="text-ink-soft">{c.pricing}</dd>
+                </div>
+                <div>
+                  <dt class="font-semibold">Billing</dt>
+                  <dd class="text-ink-soft">{c.billing}</dd>
+                </div>
+                <div>
+                  <dt class="font-semibold">{c.name} may fit better if you need</dt>
+                  <dd>
+                    <ul class="list-disc pl-5 text-ink-soft">
+                      {c.fits.map((fit) => <li>{fit}</li>)}
+                    </ul>
+                  </dd>
+                </div>
+              </dl>
+              <div class="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+                <a href={c.versusHref} class="link">EventLantern vs {c.name}</a>
+                <a href={c.alternativeHref} class="link">{c.name} alternative</a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-24">
+    <div class="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-12">
+      <div class="lg:col-span-5" data-reveal>
+        <p class="eyebrow">Plainly stated</p>
+        <h2 class="h-section mt-3">What EventLantern does not offer.</h2>
+        <p class="lead mt-5">If any of these are requirements, another platform is the better choice. We would rather you know now.</p>
+      </div>
+      <ul class="rule-list border-y border-rule lg:col-span-7" data-reveal>
+        {notOffered.map((item) => <li class="py-4 leading-7">{item}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <LeadForm
+    source="/compare"
+    id="lead-form"
+    heading="Comparing platforms? Tell us about your event."
+    intro="Share your event size and what you use today. We will reply on business days with an honest view of whether EventLantern fits."
+    buttonLabel="Send"
+  />
+
+  <CtaBand title="See your whole event in one place." subtitle="Create your first event without a sales call or a credit card." />
+
+  <section class="border-t border-rule py-8">
+    <p class="mx-auto max-w-7xl px-5 text-xs leading-5 text-ink-soft sm:px-8">{TRADEMARK_NOTE}</p>
+  </section>
+</BaseLayout>
