@@ -116,6 +116,8 @@ const orgSchema = { '@context': 'https://schema.org', '@graph': graph };
       document.documentElement.classList.add('js');
     </script>
 
+    <script is:inline src="https://app.rybbit.io/api/script.js?siteId=2d362e668bed" defer></script>
+
     <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
     <slot name="head" />
   </head>
